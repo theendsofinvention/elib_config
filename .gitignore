@@ -1,0 +1,16 @@
+.pytest_cache
+.venv
+.idea/
+.cache
+/dist/
+/build/
+__pycache__
+*.spec
+.coverage*
+/.pytest_cache/
+htmlcov
+coverage.xml
+.hypothesis/
+*.egg-info/
+.mypy_cache
+epab.yml
