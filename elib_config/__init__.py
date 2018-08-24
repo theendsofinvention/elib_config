@@ -24,6 +24,8 @@ from ._value._config_value_list import ConfigValueList
 from ._value._config_value_path import ConfigValuePath
 # noinspection PyProtectedMember
 from ._value._config_value_string import ConfigValueString
+# noinspection PyProtectedMember
+from ._value._config_value_integer import ConfigValueInteger
 
 try:
     __version__ = get_distribution('elib_config').version
