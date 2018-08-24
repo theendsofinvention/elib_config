@@ -13,13 +13,14 @@ from elib_config._file._exc import (
 )
 # noinspection PyProtectedMember
 from elib_config._value._exc import (
-    ConfigMissingValueError, ConfigTypeError, ConfigValueError, NotAFileError, NotAFolderError, PathMustExistError,
+    ConfigMissingValueError, ConfigTypeError, ConfigValueError, DuplicateConfigValueError, NotAFileError,
+    NotAFolderError, PathMustExistError, OutOfBoundError
 )
 # noinspection PyProtectedMember
 from ._file._config_example import write_example_config
 from ._setup import ELIBConfig
 # noinspection PyProtectedMember
-from ._value._config_value import SENTINEL
+from ._value._config_value import SENTINEL, validate_config
 # noinspection PyProtectedMember
 from ._value._config_value_bool import ConfigValueBool
 # noinspection PyProtectedMember

@@ -89,7 +89,7 @@ def dummy_setup(request):
 def _clean_known_values():
     # noinspection PyProtectedMember
     from elib_config._value import _config_value
-    _config_value.ConfigValue.config_values = {}
+    _config_value.ConfigValue.config_values = []
 
 
 @pytest.fixture()

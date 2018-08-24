@@ -20,7 +20,7 @@ from elib_config._setup import ELIBConfig
 # noinspection PyProtectedMember
 from elib_config._utils import friendly_type_name
 # noinspection PyProtectedMember
-from ._exc import ConfigMissingValueError, ConfigTypeError
+from ._exc import ConfigMissingValueError, ConfigTypeError, DuplicateConfigValueError
 
 SENTINEL: typing.Any = object()
 
@@ -109,15 +109,18 @@ class ConfigValue(abc.ABC):
         """
         :return: user friendly type for this config value
         """
-        # if self.value_type is str:
-        #     return 'string'
-        # elif self.value_type is dict:
-        #     return 'dictionary'
-        # elif self.value_type is int:
-        #     return 'integer'
-        # elif self.value_type is float:
-        #     return 'float'
-        # elif self.value_type is bool:
-        #     return 'boolean'
-        # elif self.value_type is list:
-        #     return 'list'
+
+
+def validate_config():
+    """
+    Verifies that all configuration values have a valid setting
+    :return:
+    """
+    ELIBConfig.check()
+    known_paths = set()
+    for config_value in ConfigValue.config_values:
+        if config_value.path not in known_paths:
+            known_paths.add(config_value.path)
+        else:
+            raise DuplicateConfigValueError(config_value.path)
+        config_value()

@@ -19,6 +19,16 @@ class _ConfigValueError(ELIBConfigError):
         )
 
 
+class DuplicateConfigValueError(_ConfigValueError):
+    """Raised when another config value has the same path"""
+
+    def __init__(self, value_name: str) -> None:
+        super(DuplicateConfigValueError, self).__init__(
+            value_name,
+            'another configuration value has been defined with the same name'
+        )
+
+
 class ConfigMissingValueError(_ConfigValueError):
     """Raised when a config value is missing"""
 
