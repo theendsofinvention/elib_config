@@ -22,3 +22,7 @@ class ConfigValueString(ConfigValue):
         if not isinstance(raw_value, str):
             self._raise_invalid_type_error()
         return raw_value
+
+    # pylint: disable=useless-super-delegation
+    def __call__(self) -> str:
+        return super(ConfigValueString, self).__call__()

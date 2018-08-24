@@ -28,3 +28,7 @@ class ConfigValueBool(ConfigValue):
             )
 
         return raw_value
+
+    # pylint: disable=useless-super-delegation
+    def __call__(self) -> bool:
+        return super(ConfigValueBool, self).__call__()
