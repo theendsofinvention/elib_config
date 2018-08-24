@@ -5,6 +5,7 @@ import pathlib
 
 import pytest
 
+# noinspection PyProtectedMember
 from elib_config import _config_value, _exc
 
 

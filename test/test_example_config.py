@@ -5,6 +5,7 @@ import re
 
 import pytest
 
+# noinspection PyProtectedMember
 from elib_config import _config_example, _config_value
 
 
