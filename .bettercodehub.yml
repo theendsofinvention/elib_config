@@ -3,4 +3,4 @@ languages:
 
 exclude:
   - /setup.py
-  - _config_example_header.py
+  - /elib_config/_config_example_header.py
