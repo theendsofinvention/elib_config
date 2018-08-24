@@ -27,10 +27,8 @@ def _get_header() -> str:
 
 def _aggregate_config_values(config_values: dict) -> dict:
     config_keys: dict = {}
-    value_names = sorted(list(config_values.keys()))
-    for name in value_names:
-        value: ConfigValue = config_values[name]
-        value_keys = name.split(ELIBConfig.config_sep_str)
+    for value in config_values:
+        value_keys = value.path.split(ELIBConfig.config_sep_str)
         this_config_key = config_keys
         for key in value_keys[:-1]:
             if key not in this_config_key:

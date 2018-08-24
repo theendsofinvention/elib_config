@@ -29,16 +29,21 @@ class ConfigValue(abc.ABC):
     """
     Abstract base class for config values
     """
-    config_values: typing.Dict[str, 'ConfigValue'] = {}
+    config_values: typing.List['ConfigValue'] = []
 
     def __init__(self, *path: str, description: str, default=SENTINEL) -> None:
-        self.path: str = ELIBConfig.config_sep_str.join(path)
-        if ELIBConfig.root_path:
-            prefix = ELIBConfig.config_sep_str.join(ELIBConfig.root_path)
-            self.path = ELIBConfig.config_sep_str.join((prefix, self.path))
+        self._raw_path = path
         self.default: object = default
         self.description: str = description
-        ConfigValue.config_values[self.path] = self
+        ConfigValue.config_values.append(self)
+
+    @property
+    def path(self) -> str:
+        path: str = ELIBConfig.config_sep_str.join(self._raw_path)
+        if ELIBConfig.root_path:
+            prefix = ELIBConfig.config_sep_str.join(ELIBConfig.root_path)
+            path = ELIBConfig.config_sep_str.join((prefix, path))
+        return path
 
     @property
     def name(self) -> str:
