@@ -5,16 +5,14 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
-import elib_config._value._exc
-# noinspection PyProtectedMember
 from elib_config import _utils
 # noinspection PyProtectedMember
-from elib_config._value import _config_value_list
+from elib_config import ConfigValueList, ConfigMissingValueError, ConfigTypeError
 
 
 @pytest.fixture(name='value')
 def _dummy_string_value():
-    yield _config_value_list.ConfigValueList(
+    yield ConfigValueList(
         'key',
         element_type=str,
         description='desc',
@@ -23,20 +21,20 @@ def _dummy_string_value():
 
 
 def test_no_default():
-    value = _config_value_list.ConfigValueList(
+    value = ConfigValueList(
         'test', 'value',
         element_type=str,
         description='test',
     )
-    with pytest.raises(elib_config._value._exc.ConfigMissingValueError):
+    with pytest.raises(ConfigMissingValueError):
         value()
 
 
-def test_string_value_default(value: _config_value_list.ConfigValueList):
+def test_string_value_default(value: ConfigValueList):
     assert value() == ['some', 'list']
 
 
-def test_string_value_type_name(value: _config_value_list.ConfigValueList):
+def test_string_value_type_name(value: ConfigValueList):
     assert value.type_name == 'List of strings'
 
 
@@ -50,14 +48,14 @@ def test_string_value_type_name(value: _config_value_list.ConfigValueList):
         ('{some = "dict"}', 'dictionary'),
     ]
 )
-def test_invalid_cast_type_from_config_file(value: _config_value_list.ConfigValueList, file_value, wrong_type):
+def test_invalid_cast_type_from_config_file(value: ConfigValueList, file_value, wrong_type):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
     exc_msg = f'{value.name}: config value must be of type "List of strings", got "{wrong_type}" instead'
-    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=exc_msg):
+    with pytest.raises(ConfigTypeError, match=exc_msg):
         value()
 
 
-def test_valid_cast_type_from_config_file(value: _config_value_list.ConfigValueList):
+def test_valid_cast_type_from_config_file(value: ConfigValueList):
     pathlib.Path('config.toml').write_text(f'key = ["some", "other", "list"]')
     assert value() == ['some', 'other', 'list']
 
@@ -66,11 +64,11 @@ def test_valid_cast_type_from_config_file(value: _config_value_list.ConfigValueL
     'not_a_string',
     (True, False, 10, 10.05, ['another', 'list'], {'a': 'dict'})
 )
-def test_element_type_check(value: _config_value_list.ConfigValueList, not_a_string):
+def test_element_type_check(value: ConfigValueList, not_a_string):
     value.default = ['string', 'string_too', not_a_string]
     actual_type = _utils.friendly_type_name(type(not_a_string))
     error = f'{value.name}: item at index 2 should be a "string", but is "{actual_type}" instead'
-    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=error):
+    with pytest.raises(ConfigTypeError, match=error):
         value()
 
 
@@ -78,8 +76,8 @@ def test_element_type_check(value: _config_value_list.ConfigValueList, not_a_str
     'not_a_string',
     ('true', 'false', '10', '10.05', '["another", "list"]', '{a = "dict"}')
 )
-def test_element_type_check_from_file(value: _config_value_list.ConfigValueList, not_a_string):
+def test_element_type_check_from_file(value: ConfigValueList, not_a_string):
     pathlib.Path('config.toml').write_text(f'key = [ {not_a_string} ]')
     error = f'{value.name}: item at index 0 should be a "string", but is .* instead'
-    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=error):
+    with pytest.raises(ConfigTypeError, match=error):
         value()

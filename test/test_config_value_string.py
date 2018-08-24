@@ -4,15 +4,12 @@ import pathlib
 
 import pytest
 
-# noinspection PyProtectedMember
-import elib_config._value._exc
-# noinspection PyProtectedMember
-from elib_config._value import _config_value_string
+from elib_config import ConfigValueString, ConfigMissingValueError, ConfigTypeError
 
 
 @pytest.fixture(name='value')
 def _dummy_string_value():
-    yield _config_value_string.ConfigValueString(
+    yield ConfigValueString(
         'key',
         description='desc',
         default='default',
@@ -20,11 +17,11 @@ def _dummy_string_value():
 
 
 def test_no_default():
-    value = _config_value_string.ConfigValueString(
+    value = ConfigValueString(
         'test', 'value',
         description='test',
     )
-    with pytest.raises(elib_config._value._exc.ConfigMissingValueError):
+    with pytest.raises(ConfigMissingValueError):
         value()
 
 
@@ -48,7 +45,7 @@ def test_string_value_type_name(value):
 def test_invalid_cast_type_from_config_file(value, file_value):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
     exc_msg = f'{value.name}: config value must be of type "string", got .* instead'
-    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=exc_msg):
+    with pytest.raises(ConfigTypeError, match=exc_msg):
         value()
 
 

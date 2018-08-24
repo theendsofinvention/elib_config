@@ -28,21 +28,6 @@ def _strip_header(file: str):
     file_path.write_text(new_content, 'utf8')
 
 
-@pytest.mark.parametrize(
-    'config_values,result',
-    [
-        ({'key': 'value'}, {'key': 'value'}),
-        ({'some__nested__key': 'value'}, {'some': {'nested': {'key': 'value'}}}),
-        (
-                {'some__nested__key': 'value', 'some__other__nested__key': 'value'},
-                {'some': {'nested': {'key': 'value'}, 'other': {'nested': {'key': 'value'}}}}
-        ),
-    ]
-)
-def test_aggregate_values(config_values, result):
-    assert _config_example._aggregate_config_values(config_values) == result
-
-
 def test_config_values_to_text():
     DummyConfigValue(
         'some', 'key',

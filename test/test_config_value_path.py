@@ -4,15 +4,15 @@ import pathlib
 
 import pytest
 
-# noinspection PyProtectedMember
-import elib_config._value._exc
-# noinspection PyProtectedMember
-from elib_config._value import _config_value_path
+from elib_config import (
+    ConfigMissingValueError, ConfigTypeError, ConfigValuePath, NotAFileError, NotAFolderError,
+    PathMustExistError,
+)
 
 
 @pytest.fixture(name='value')
 def _dummy_string_value():
-    yield _config_value_path.ConfigValuePath(
+    yield ConfigValuePath(
         'key',
         description='desc',
         default='some path',
@@ -20,11 +20,11 @@ def _dummy_string_value():
 
 
 def test_no_default():
-    value = _config_value_path.ConfigValuePath(
+    value = ConfigValuePath(
         'test', 'value',
         description='test',
     )
-    with pytest.raises(elib_config._value._exc.ConfigMissingValueError):
+    with pytest.raises(ConfigMissingValueError):
         value()
 
 
@@ -48,7 +48,7 @@ def test_string_value_type_name(value):
 def test_invalid_cast_type_from_config_file(value, file_value):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
     exc_msg = f'{value.name}: config value must be of type "path", got .* instead'
-    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=exc_msg):
+    with pytest.raises(ConfigTypeError, match=exc_msg):
         value()
 
 
@@ -65,55 +65,55 @@ def test_path_value_file(value):
     assert test_file.exists()
 
 
-def test_path_value_must_exist(value: _config_value_path.ConfigValuePath):
+def test_path_value_must_exist(value: ConfigValuePath):
     value.must_exist()
     test_file = pathlib.Path('some path').absolute()
     assert not test_file.exists()
-    with pytest.raises(elib_config._value._exc.PathMustExistError):
+    with pytest.raises(PathMustExistError):
         value()
     test_file.touch()
     value()
 
 
-def test_path_value_must_be_file_with_file(value: _config_value_path.ConfigValuePath):
+def test_path_value_must_be_file_with_file(value: ConfigValuePath):
     value.must_be_file()
     test_path = pathlib.Path('some path')
     test_path.touch()
     value()
 
 
-def test_path_value_must_be_file_with_dir(value: _config_value_path.ConfigValuePath):
+def test_path_value_must_be_file_with_dir(value: ConfigValuePath):
     value.must_be_file()
     test_path = pathlib.Path('some path')
     test_path.mkdir()
-    with pytest.raises(elib_config._value._exc.NotAFileError):
+    with pytest.raises(NotAFileError):
         value()
     test_path.rmdir()
     value.must_exist()
-    with pytest.raises(elib_config._value._exc.PathMustExistError):
+    with pytest.raises(PathMustExistError):
         value()
 
 
-def test_path_value_must_be_dir_with_dir(value: _config_value_path.ConfigValuePath):
+def test_path_value_must_be_dir_with_dir(value: ConfigValuePath):
     value.must_be_dir()
     test_path = pathlib.Path('some path')
     test_path.mkdir()
     value()
 
 
-def test_path_value_must_be_dir_with_file(value: _config_value_path.ConfigValuePath):
+def test_path_value_must_be_dir_with_file(value: ConfigValuePath):
     value.must_be_dir()
     test_path = pathlib.Path('some path')
     test_path.touch()
-    with pytest.raises(elib_config._value._exc.NotAFolderError):
+    with pytest.raises(NotAFolderError):
         value()
     test_path.unlink()
     value.must_exist()
-    with pytest.raises(elib_config._value._exc.PathMustExistError):
+    with pytest.raises(PathMustExistError):
         value()
 
 
-def test_path_value_create_missing_dir(value: _config_value_path.ConfigValuePath):
+def test_path_value_create_missing_dir(value: ConfigValuePath):
     test_path = pathlib.Path('some path')
     value.create_dir()
     assert not test_path.exists()

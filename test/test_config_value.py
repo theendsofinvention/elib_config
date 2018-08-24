@@ -5,8 +5,7 @@ import pathlib
 
 import pytest
 
-# noinspection PyProtectedMember
-import elib_config._value._exc
+from elib_config import ConfigMissingValueError
 # noinspection PyProtectedMember
 from elib_config._value import _config_value
 
@@ -39,12 +38,12 @@ def test_config_value_basic(dummy_value):
 
 
 def test_value_no_default(dummy_value):
-    with pytest.raises(elib_config._value._exc.ConfigMissingValueError):
+    with pytest.raises(ConfigMissingValueError):
         dummy_value()
 
 
 def test_value_in_environ(dummy_value):
-    with pytest.raises(elib_config._value._exc.ConfigMissingValueError):
+    with pytest.raises(ConfigMissingValueError):
         dummy_value()
     os.environ['TEST__DUMMY__TEST__CONFIG_VALUE'] = 'test_value'
     assert dummy_value() == 'test_value'
