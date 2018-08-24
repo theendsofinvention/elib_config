@@ -48,12 +48,13 @@ def _global_tear_down(tmpdir, monkeypatch):
         monkeypatch.delenv('APPVEYOR')
     except KeyError:
         pass
+    os_env = dict(os.environ)
     current_dir = os.getcwd()
     folder = Path(tmpdir).absolute()
     os.chdir(folder)
     yield
     unstub()
-
+    os.environ = os_env
     # noinspection PyProtectedMember
     from elib_config._setup import ELIBConfig
     ELIBConfig.setup(
