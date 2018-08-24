@@ -19,6 +19,8 @@ from elib_config._config_file import read_config_file
 from elib_config._exc import ConfigMissingValueError, ConfigTypeError
 # noinspection PyProtectedMember
 from elib_config._setup import ELIBConfig
+# noinspection PyProtectedMember
+from elib_config._utils import friendly_type_name
 
 SENTINEL = object()
 
@@ -83,9 +85,10 @@ class ConfigValue(abc.ABC):
         return self._cast(raw_value)
 
     def _raise_invalid_type_error(self):
+        actual_type: str = friendly_type_name(type(self.raw_value()))
         raise ConfigTypeError(
             self.path,
-            f'config value must be of type "{self.type_name}", got {type(self.raw_value())} instead.'
+            f'config value must be of type "{self.type_name}", got "{actual_type}" instead.'
         )
 
     @abc.abstractmethod
