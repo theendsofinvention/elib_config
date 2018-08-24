@@ -41,7 +41,7 @@ def test_aggregate_values(config_values, result):
     assert _config_example._aggregate_config_values(config_values) == result
 
 
-def test_config_values_to_text(root_dir: pathlib.Path):
+def test_config_values_to_text():
     DummyConfigValue(
         'some', 'key',
         description='value1',
@@ -55,7 +55,7 @@ def test_config_values_to_text(root_dir: pathlib.Path):
     _config_example.write_example_config('test')
     # _strip_header('test')
     header, content = pathlib.Path('test').read_text('utf8').split('START OF ACTUAL CONFIG FILE\n\n\n')
-    test_file = pathlib.Path(root_dir, 'test.toml')
+    test_file = pathlib.Path('test.toml')
     test_file.write_text(content, 'utf8')
     import toml
     toml.loads(test_file.read_text('utf8'))
@@ -74,7 +74,7 @@ def test_config_values_to_text(root_dir: pathlib.Path):
 """, content
 
 
-def test_config_values_to_text_mandatory_values(root_dir: pathlib.Path):
+def test_config_values_to_text_mandatory_values():
     DummyConfigValue(
         'some', 'key',
         description='value1',
@@ -86,7 +86,7 @@ def test_config_values_to_text_mandatory_values(root_dir: pathlib.Path):
     )
     _config_example.write_example_config('test')
     _, content = pathlib.Path('test').read_text('utf8').split('START OF ACTUAL CONFIG FILE\n\n\n')
-    test_file = pathlib.Path(root_dir, 'test.toml')
+    test_file = pathlib.Path('test.toml')
     test_file.write_text(content, 'utf8')
     import toml
     try:
