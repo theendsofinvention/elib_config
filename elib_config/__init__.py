@@ -17,11 +17,11 @@ from elib_config._value._exc import (
 )
 from ._setup import ELIBConfig
 # noinspection PyProtectedMember
-from ._value._config_value_path import ConfigValuePath
-# noinspection PyProtectedMember
 from ._value._config_value_bool import ConfigValueBool
 # noinspection PyProtectedMember
 from ._value._config_value_list import ConfigValueList
+# noinspection PyProtectedMember
+from ._value._config_value_path import ConfigValuePath
 # noinspection PyProtectedMember
 from ._value._config_value_string import ConfigValueString
 

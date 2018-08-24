@@ -27,7 +27,7 @@ class ConfigValueList(ConfigValue):
         """
         return f'List of {self._expected_element_type}s'
 
-    def __init__(self, *path: str, element_type: typing.Type, description: str, default=SENTINEL) -> None:
+    def __init__(self, *path: str, element_type: typing.Type, description: str, default: typing.Any = SENTINEL) -> None:
         self.element_type = element_type
         super(ConfigValueList, self).__init__(*path, description=description, default=default)
 

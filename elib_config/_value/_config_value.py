@@ -22,7 +22,7 @@ from elib_config._utils import friendly_type_name
 # noinspection PyProtectedMember
 from ._exc import ConfigMissingValueError, ConfigTypeError
 
-SENTINEL = object()
+SENTINEL: typing.Any = object()
 
 
 class ConfigValue(abc.ABC):
