@@ -8,9 +8,9 @@ from pathlib import Path
 import toml
 
 # noinspection PyProtectedMember
-from elib_config import ConfigFileNotFoundError, EmptyValueError, InvalidConfigFileError
-# noinspection PyProtectedMember
 from elib_config._setup import ELIBConfig
+# noinspection PyProtectedMember
+from ._exc import ConfigFileNotFoundError, EmptyValueError, InvalidConfigFileError
 
 CONFIG_LOCK = multiprocessing.Lock()
 """:py:class:`multiprocessing.Lock` that blocks concurrent access to the config file by multiple processes"""
