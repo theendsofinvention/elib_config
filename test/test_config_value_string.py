@@ -4,7 +4,7 @@ import pathlib
 
 import pytest
 
-from elib_config import ConfigValueString, ConfigMissingValueError, ConfigTypeError
+from elib_config import ConfigMissingValueError, ConfigTypeError, ConfigValueString
 
 
 @pytest.fixture(name='value')

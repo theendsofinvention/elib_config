@@ -3,8 +3,6 @@
 import pathlib
 import re
 
-import pytest
-
 # noinspection PyProtectedMember
 from elib_config._file import _config_example
 # noinspection PyProtectedMember

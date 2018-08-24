@@ -14,7 +14,7 @@ from elib_config._file._exc import (
 # noinspection PyProtectedMember
 from elib_config._value._exc import (
     ConfigMissingValueError, ConfigTypeError, ConfigValueError, DuplicateConfigValueError, NotAFileError,
-    NotAFolderError, PathMustExistError, OutOfBoundError
+    NotAFolderError, OutOfBoundError, PathMustExistError,
 )
 # noinspection PyProtectedMember
 from ._file._config_example import write_example_config

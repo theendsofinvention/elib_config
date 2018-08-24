@@ -25,7 +25,7 @@ def _get_header() -> str:
     return '# ' + str('\n# '.join(header.split('\n')).rstrip()) + '\n#\n# START OF ACTUAL CONFIG FILE\n\n'
 
 
-def _aggregate_config_values(config_values: dict) -> dict:
+def _aggregate_config_values(config_values: list) -> dict:
     config_keys: dict = {}
     for value in config_values:
         value_keys = value.path.split(ELIBConfig.config_sep_str)

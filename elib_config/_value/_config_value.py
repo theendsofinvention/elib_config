@@ -39,6 +39,9 @@ class ConfigValue(abc.ABC):
 
     @property
     def path(self) -> str:
+        """
+        :return: path of this config value as a string
+        """
         path: str = ELIBConfig.config_sep_str.join(self._raw_path)
         if ELIBConfig.root_path:
             prefix = ELIBConfig.config_sep_str.join(ELIBConfig.root_path)

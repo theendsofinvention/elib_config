@@ -4,9 +4,9 @@ import pathlib
 
 import pytest
 
+from elib_config import ConfigFileNotFoundError, EmptyValueError, InvalidConfigFileError
 # noinspection PyProtectedMember
 from elib_config._file import _config_file
-from elib_config import ConfigFileNotFoundError, InvalidConfigFileError, EmptyValueError
 
 
 def test_ensure_config_file_exists_missing():

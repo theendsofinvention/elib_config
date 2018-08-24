@@ -18,14 +18,6 @@ def _create_values_with_default():
     ConfigValueList('list', description='dummy', default=[], element_type=str)
 
 
-def _create_values_without_default():
-    ConfigValueBool('bool', description='dummy')
-    ConfigValueString('string', description='dummy')
-    ConfigValueInteger('integer', description='dummy')
-    ConfigValuePath('path', description='dummy')
-    ConfigValueList('list', description='dummy')
-
-
 def test_valid_bare_config():
     _create_values_with_default()
     validate_config()
