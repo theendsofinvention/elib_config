@@ -14,9 +14,9 @@ import os
 import typing
 
 # noinspection PyProtectedMember
-from elib_config._config_file import read_config_file
-# noinspection PyProtectedMember
 from elib_config._exc import ConfigMissingValueError, ConfigTypeError
+# noinspection PyProtectedMember
+from elib_config._file._config_file import read_config_file
 # noinspection PyProtectedMember
 from elib_config._setup import ELIBConfig
 # noinspection PyProtectedMember

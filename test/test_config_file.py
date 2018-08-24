@@ -5,7 +5,7 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
-from elib_config import _config_file
+from elib_config._file import _config_file
 
 
 def test_ensure_config_file_exists_missing():

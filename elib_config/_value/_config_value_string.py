@@ -3,7 +3,7 @@
 Config value that will be cast as a string
 """
 # noinspection PyProtectedMember
-from elib_config._config_value import ConfigValue
+from elib_config._value._config_value import ConfigValue
 
 
 class ConfigValueString(ConfigValue):

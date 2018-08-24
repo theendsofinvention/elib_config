@@ -6,7 +6,9 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
-from elib_config import _config_value, _exc
+from elib_config import _exc
+# noinspection PyProtectedMember
+from elib_config._value import _config_value
 
 
 @pytest.fixture(name='dummy_value')
