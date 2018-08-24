@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+toml = "*"
+setuptools-scm = ">=2.1.0"
+
+[dev-packages]
+pytest = "*"
+pytest-pycharm = "*"
+hypothesis = "*"
+pytest-cache = "*"
+coverage = "*"
+wheel = "*"
+twine = "*"
+"autopep8" = "*"
+pylint = "*"
+safety = "*"
+"flake8" = "*"
+pytest-cov = "*"
+mypy = "*"
+mockito = "*"
+
+[requires]
+python_version = "3.6"
