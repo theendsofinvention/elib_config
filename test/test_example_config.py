@@ -7,6 +7,7 @@ import pytest
 
 # noinspection PyProtectedMember
 from elib_config._file import _config_example
+# noinspection PyProtectedMember
 from elib_config._value import _config_value
 
 

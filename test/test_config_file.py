@@ -5,11 +5,13 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
+import elib_config._file._exc
+# noinspection PyProtectedMember
 from elib_config._file import _config_file
 
 
 def test_ensure_config_file_exists_missing():
-    with pytest.raises(_config_file.ConfigFileNotFoundError):
+    with pytest.raises(elib_config._file._exc.ConfigFileNotFoundError):
         _config_file._ensure_config_file_exists()
 
 
@@ -42,7 +44,7 @@ def test_read_file_basic():
 )
 def test_invalid_file(file_content):
     pathlib.Path('config.toml').write_text(file_content)
-    with pytest.raises(_config_file.InvalidConfigFileError):
+    with pytest.raises(elib_config._file._exc.InvalidConfigFileError):
         _config_file._read_file()
 
 
@@ -50,7 +52,7 @@ def test_empty_value():
     pathlib.Path('config.toml').write_text("""[some]
     key = 
     """)
-    with pytest.raises(_config_file.EmptyValueError):
+    with pytest.raises(elib_config._file._exc.EmptyValueError):
         _config_file.read_config_file()
 
 

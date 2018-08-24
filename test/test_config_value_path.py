@@ -5,7 +5,8 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
-from elib_config import _exc
+import elib_config._value._exc
+# noinspection PyProtectedMember
 from elib_config._value import _config_value_path
 
 
@@ -23,7 +24,7 @@ def test_no_default():
         'test', 'value',
         description='test',
     )
-    with pytest.raises(_exc.ConfigMissingValueError):
+    with pytest.raises(elib_config._value._exc.ConfigMissingValueError):
         value()
 
 
@@ -47,7 +48,7 @@ def test_string_value_type_name(value):
 def test_invalid_cast_type_from_config_file(value, file_value):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
     exc_msg = f'{value.name}: config value must be of type "path", got .* instead'
-    with pytest.raises(_exc.ConfigTypeError, match=exc_msg):
+    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=exc_msg):
         value()
 
 
@@ -68,7 +69,7 @@ def test_path_value_must_exist(value: _config_value_path.ConfigValuePath):
     value.must_exist()
     test_file = pathlib.Path('some path').absolute()
     assert not test_file.exists()
-    with pytest.raises(_exc.PathMustExistError):
+    with pytest.raises(elib_config._value._exc.PathMustExistError):
         value()
     test_file.touch()
     value()
@@ -85,11 +86,11 @@ def test_path_value_must_be_file_with_dir(value: _config_value_path.ConfigValueP
     value.must_be_file()
     test_path = pathlib.Path('some path')
     test_path.mkdir()
-    with pytest.raises(_exc.NotAFileError):
+    with pytest.raises(elib_config._value._exc.NotAFileError):
         value()
     test_path.rmdir()
     value.must_exist()
-    with pytest.raises(_exc.PathMustExistError):
+    with pytest.raises(elib_config._value._exc.PathMustExistError):
         value()
 
 
@@ -104,11 +105,11 @@ def test_path_value_must_be_dir_with_file(value: _config_value_path.ConfigValueP
     value.must_be_dir()
     test_path = pathlib.Path('some path')
     test_path.touch()
-    with pytest.raises(_exc.NotAFolderError):
+    with pytest.raises(elib_config._value._exc.NotAFolderError):
         value()
     test_path.unlink()
     value.must_exist()
-    with pytest.raises(_exc.PathMustExistError):
+    with pytest.raises(elib_config._value._exc.PathMustExistError):
         value()
 
 

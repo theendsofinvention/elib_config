@@ -8,7 +8,7 @@ from pathlib import Path
 import toml
 
 # noinspection PyProtectedMember
-from elib_config._exc import ConfigFileNotFoundError, EmptyValueError, InvalidConfigFileError
+from elib_config import ConfigFileNotFoundError, EmptyValueError, InvalidConfigFileError
 # noinspection PyProtectedMember
 from elib_config._setup import ELIBConfig
 

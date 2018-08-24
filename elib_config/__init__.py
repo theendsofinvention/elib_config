@@ -7,9 +7,13 @@ It is intended for my personal use only
 
 from pkg_resources import DistributionNotFound, get_distribution
 
-from ._exc import (
-    ConfigFileNotFoundError, ConfigMissingValueError, ConfigTypeError, ConfigValueError, ELIBConfigError,
-    EmptyValueError, IncompleteSetupError, InvalidConfigFileError, NotAFileError, NotAFolderError, PathMustExistError,
+# noinspection PyProtectedMember
+from elib_config._file._exc import (
+    ConfigFileNotFoundError, EmptyValueError, IncompleteSetupError, InvalidConfigFileError,
+)
+# noinspection PyProtectedMember
+from elib_config._value._exc import (
+    ConfigMissingValueError, ConfigTypeError, ConfigValueError, NotAFileError, NotAFolderError, PathMustExistError,
 )
 from ._setup import ELIBConfig
 # noinspection PyProtectedMember

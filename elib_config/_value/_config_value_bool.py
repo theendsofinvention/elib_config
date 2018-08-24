@@ -3,7 +3,7 @@
 Config value that will be cast as a boolean
 """
 # noinspection PyProtectedMember
-from elib_config._exc import ConfigTypeError
+from elib_config import ConfigTypeError
 # noinspection PyProtectedMember
 from elib_config._value._config_value import ConfigValue
 

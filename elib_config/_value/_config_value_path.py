@@ -7,7 +7,7 @@ Provides a few helpers to further customize the behaviour for path config values
 from pathlib import Path
 
 # noinspection PyProtectedMember
-from elib_config._exc import NotAFileError, NotAFolderError, PathMustExistError
+from elib_config import NotAFileError, NotAFolderError, PathMustExistError
 # noinspection PyProtectedMember
 from elib_config._value._config_value import ConfigValue, SENTINEL
 

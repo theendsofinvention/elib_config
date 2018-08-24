@@ -6,7 +6,7 @@ Config value that will be cast as a list
 import typing
 
 # noinspection PyProtectedMember
-from elib_config._exc import ConfigTypeError
+from elib_config import ConfigTypeError
 # noinspection PyProtectedMember
 from elib_config._utils import friendly_type_name
 # noinspection PyProtectedMember
