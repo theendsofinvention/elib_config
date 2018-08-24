@@ -8,7 +8,22 @@ requirements = [
     'toml',
     'setuptools_scm',
 ]
-test_requirements = []
+test_requirements = [
+    'pytest',
+    'pytest-pycharm',
+    'hypothesis',
+    'pytest-cache',
+    'coverage',
+    'wheel',
+    'twine',
+    'autopep8',
+    'pylint',
+    'safety',
+    'flake8',
+    'pytest-cov',
+    'mypy',
+    'mockito',
+]
 
 CLASSIFIERS = filter(None, map(str.strip,
                                """
