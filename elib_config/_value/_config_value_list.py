@@ -6,11 +6,11 @@ Config value that will be cast as a list
 import typing
 
 # noinspection PyProtectedMember
-from elib_config._config_value import ConfigValue, SENTINEL
-# noinspection PyProtectedMember
-from elib_config._exc import ConfigTypeError
-# noinspection PyProtectedMember
 from elib_config._utils import friendly_type_name
+# noinspection PyProtectedMember
+from ._config_value import ConfigValue, SENTINEL
+# noinspection PyProtectedMember
+from ._exc import ConfigTypeError
 
 
 class ConfigValueList(ConfigValue):

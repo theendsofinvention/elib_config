@@ -5,7 +5,9 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
-from elib_config import _config_value_bool, _exc
+import elib_config._value._exc
+# noinspection PyProtectedMember
+from elib_config._value import _config_value_bool
 
 
 @pytest.fixture(name='value')
@@ -22,7 +24,7 @@ def test_no_default():
         'test', 'value',
         description='test',
     )
-    with pytest.raises(_exc.ConfigMissingValueError):
+    with pytest.raises(elib_config._value._exc.ConfigMissingValueError):
         value()
 
 
@@ -47,7 +49,7 @@ def test_invalid_cast_type_from_config_file(value, file_value):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
     exc_msg = f'{value.name}: invalid boolean expression: ".*"; ' \
               f'use either "true" or "false" instead, without the quotes.'
-    with pytest.raises(_exc.ConfigTypeError, match=exc_msg):
+    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=exc_msg):
         value()
 
 

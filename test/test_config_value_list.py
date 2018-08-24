@@ -5,7 +5,11 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
-from elib_config import _config_value_list, _exc, _utils
+import elib_config._value._exc
+# noinspection PyProtectedMember
+from elib_config import _utils
+# noinspection PyProtectedMember
+from elib_config._value import _config_value_list
 
 
 @pytest.fixture(name='value')
@@ -24,7 +28,7 @@ def test_no_default():
         element_type=str,
         description='test',
     )
-    with pytest.raises(_exc.ConfigMissingValueError):
+    with pytest.raises(elib_config._value._exc.ConfigMissingValueError):
         value()
 
 
@@ -49,7 +53,7 @@ def test_string_value_type_name(value: _config_value_list.ConfigValueList):
 def test_invalid_cast_type_from_config_file(value: _config_value_list.ConfigValueList, file_value, wrong_type):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
     exc_msg = f'{value.name}: config value must be of type "List of strings", got "{wrong_type}" instead'
-    with pytest.raises(_exc.ConfigTypeError, match=exc_msg):
+    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=exc_msg):
         value()
 
 
@@ -66,7 +70,7 @@ def test_element_type_check(value: _config_value_list.ConfigValueList, not_a_str
     value.default = ['string', 'string_too', not_a_string]
     actual_type = _utils.friendly_type_name(type(not_a_string))
     error = f'{value.name}: item at index 2 should be a "string", but is "{actual_type}" instead'
-    with pytest.raises(_config_value_list.ConfigTypeError, match=error):
+    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=error):
         value()
 
 
@@ -77,5 +81,5 @@ def test_element_type_check(value: _config_value_list.ConfigValueList, not_a_str
 def test_element_type_check_from_file(value: _config_value_list.ConfigValueList, not_a_string):
     pathlib.Path('config.toml').write_text(f'key = [ {not_a_string} ]')
     error = f'{value.name}: item at index 0 should be a "string", but is .* instead'
-    with pytest.raises(_config_value_list.ConfigTypeError, match=error):
+    with pytest.raises(elib_config._value._exc.ConfigTypeError, match=error):
         value()

@@ -8,11 +8,11 @@ import typing
 import toml
 
 # noinspection PyProtectedMember
-from elib_config._config_example_header import HEADER
-# noinspection PyProtectedMember
-from elib_config._config_value import ConfigValue, SENTINEL
-# noinspection PyProtectedMember
 from elib_config._setup import ELIBConfig
+# noinspection PyProtectedMember
+from elib_config._value._config_value import ConfigValue, SENTINEL
+# noinspection PyProtectedMember
+from ._config_example_header import HEADER
 
 
 def _get_header() -> str:

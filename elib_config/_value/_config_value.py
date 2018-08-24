@@ -14,13 +14,13 @@ import os
 import typing
 
 # noinspection PyProtectedMember
-from elib_config._config_file import read_config_file
-# noinspection PyProtectedMember
-from elib_config._exc import ConfigMissingValueError, ConfigTypeError
+from elib_config._file._config_file import read_config_file
 # noinspection PyProtectedMember
 from elib_config._setup import ELIBConfig
 # noinspection PyProtectedMember
 from elib_config._utils import friendly_type_name
+# noinspection PyProtectedMember
+from ._exc import ConfigMissingValueError, ConfigTypeError
 
 SENTINEL = object()
 

@@ -4,12 +4,13 @@ Config value that will be cast as a `pathlib.Path`
 
 Provides a few helpers to further customize the behaviour for path config values
 """
+import typing
 from pathlib import Path
 
 # noinspection PyProtectedMember
-from elib_config._config_value import ConfigValue, SENTINEL
+from ._config_value import ConfigValue, SENTINEL
 # noinspection PyProtectedMember
-from elib_config._exc import NotAFileError, NotAFolderError, PathMustExistError
+from ._exc import NotAFileError, NotAFolderError, PathMustExistError
 
 
 class ConfigValuePath(ConfigValue):
@@ -17,7 +18,7 @@ class ConfigValuePath(ConfigValue):
     Config value that will be cast as a `pathlib.Path`
     """
 
-    def __init__(self, *path: str, description: str, default=SENTINEL) -> None:
+    def __init__(self, *path: str, description: str, default: typing.Any = SENTINEL) -> None:  # type: ignore
         ConfigValue.__init__(self, *path, description=description, default=default)
         self._must_be_file: bool = False
         self._must_be_dir: bool = False

@@ -6,7 +6,9 @@ import re
 import pytest
 
 # noinspection PyProtectedMember
-from elib_config import _config_example, _config_value
+from elib_config._file import _config_example
+# noinspection PyProtectedMember
+from elib_config._value import _config_value
 
 
 class DummyConfigValue(_config_value.ConfigValue):

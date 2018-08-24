@@ -7,14 +7,17 @@ It is intended for my personal use only
 
 from pkg_resources import DistributionNotFound, get_distribution
 
-from ._config_value_bool import ConfigValueBool
-from ._config_value_path import ConfigValuePath
-from ._config_value_string import ConfigValueString
-from ._exc import (
-    ConfigFileNotFoundError, ConfigMissingValueError, ConfigTypeError, ConfigValueError, ELIBConfigError,
-    EmptyValueError, IncompleteSetupError, InvalidConfigFileError, NotAFileError, NotAFolderError, PathMustExistError,
+# noinspection PyProtectedMember
+from elib_config._file._exc import (
+    ConfigFileNotFoundError, EmptyValueError, IncompleteSetupError, InvalidConfigFileError,
+)
+# noinspection PyProtectedMember
+from elib_config._value._exc import (
+    ConfigMissingValueError, ConfigTypeError, ConfigValueError, NotAFileError, NotAFolderError, PathMustExistError,
 )
 from ._setup import ELIBConfig
+# noinspection PyProtectedMember
+from ._value._config_value_path import ConfigValuePath
 
 try:
     __version__ = get_distribution('elib_config').version

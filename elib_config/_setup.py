@@ -4,7 +4,7 @@ elib_config package configuration
 """
 
 # noinspection PyProtectedMember
-from elib_config._exc import IncompleteSetupError
+from elib_config import IncompleteSetupError
 
 
 class ELIBConfig:

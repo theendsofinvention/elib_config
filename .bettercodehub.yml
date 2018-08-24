@@ -1,0 +1,8 @@
+languages:
+  - python
+
+exclude:
+  - /setup.py
+  - /elib_config/_file/_config_example_header.py
+
+component_depth: 2

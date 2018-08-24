@@ -3,9 +3,9 @@
 Config value that will be cast as a boolean
 """
 # noinspection PyProtectedMember
-from elib_config._config_value import ConfigValue
+from ._config_value import ConfigValue
 # noinspection PyProtectedMember
-from elib_config._exc import ConfigTypeError
+from ._exc import ConfigTypeError
 
 
 class ConfigValueBool(ConfigValue):

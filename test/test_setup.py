@@ -6,12 +6,14 @@ Tests for `elib_config._setup.py`
 import pytest
 
 # noinspection PyProtectedMember
+import elib_config._file._exc
+# noinspection PyProtectedMember
 from elib_config import _setup
 
 
 @pytest.mark.skip_setup
 def test_no_setup():
-    with pytest.raises(_setup.IncompleteSetupError):
+    with pytest.raises(elib_config._file._exc.IncompleteSetupError):
         _setup.ELIBConfig.check()
 
 
@@ -25,5 +27,5 @@ def test_correct_setup():
 )
 def test_partial_setup(attrib):
     setattr(_setup.ELIBConfig, attrib, 'not_set')
-    with pytest.raises(_setup.IncompleteSetupError):
+    with pytest.raises(elib_config._file._exc.IncompleteSetupError):
         _setup.ELIBConfig.check()
