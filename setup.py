@@ -27,7 +27,7 @@ test_requirements = [
 
 CLASSIFIERS = filter(None, map(str.strip,
                                """
-Development Status :: 1 - Planning
+Development Status :: 3 - Alpha
 Topic :: Utilities
 License :: OSI Approved :: MIT License
 Environment :: Win32 (MS Windows)
