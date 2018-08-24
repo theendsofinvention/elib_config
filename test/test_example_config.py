@@ -53,8 +53,7 @@ def test_config_values_to_text():
         default='test',
     )
     _config_example.write_example_config('test')
-    # _strip_header('test')
-    header, content = pathlib.Path('test').read_text('utf8').split('START OF ACTUAL CONFIG FILE\n\n\n')
+    _, content = pathlib.Path('test').read_text('utf8').split('START OF ACTUAL CONFIG FILE\n\n\n')
     test_file = pathlib.Path('test.toml')
     test_file.write_text(content, 'utf8')
     import toml
