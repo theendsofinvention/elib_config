@@ -33,6 +33,9 @@ class ConfigValue(abc.ABC):
 
     def __init__(self, *path: str, description: str, default=SENTINEL) -> None:
         self.path: str = ELIBConfig.config_sep_str.join(path)
+        if ELIBConfig.root_path:
+            prefix = ELIBConfig.config_sep_str.join(ELIBConfig.root_path)
+            self.path = ELIBConfig.config_sep_str.join((prefix, self.path))
         self.default: object = default
         self.description: str = description
         ConfigValue.config_values[self.path] = self

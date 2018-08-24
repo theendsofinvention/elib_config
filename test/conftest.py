@@ -80,7 +80,7 @@ def dummy_setup(request):
         app_version='0.1',
         app_name='test',
         config_file_path='config.toml',
-        config_sep_str='__'
+        config_sep_str='__',
     )
 
 
