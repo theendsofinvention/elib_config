@@ -3,13 +3,14 @@
 Reads and writes ESST's config to/from a file.
 """
 import multiprocessing
-import sys
 from pathlib import Path
 
 import toml
 
-from ._exc import ConfigFileNotFoundError
-from ._setup import ELIBConfig
+# noinspection PyProtectedMember
+from elib_config._exc import ConfigFileNotFoundError, EmptyValueError, InvalidConfigFileError
+# noinspection PyProtectedMember
+from elib_config._setup import ELIBConfig
 
 CONFIG_LOCK = multiprocessing.Lock()
 """:py:class:`multiprocessing.Lock` that blocks concurrent access to the config file by multiple processes"""
@@ -22,8 +23,8 @@ def _ensure_config_file_exists():
     :raises: :class:`epab.core.new_config.exc.ConfigFileNotFoundError`
     """
     config_file = Path(ELIBConfig.config_file_path).absolute()
-    if not config_file.exists() and not getattr(sys, '_called_from_test'):
-        raise ConfigFileNotFoundError(config_file)
+    if not config_file.exists():
+        raise ConfigFileNotFoundError(ELIBConfig.config_file_path)
 
 
 def _read_file() -> dict:
@@ -33,31 +34,25 @@ def _read_file() -> dict:
     with config_file.open(encoding='utf8') as stream:
         try:
             return toml.load(stream)
-        except toml.TomlDecodeError:
-            raise ValueError('invalid config file')
+        except toml.TomlDecodeError as error:
+            if 'Empty value is invalid' in error.args:
+                raise EmptyValueError(str(config_file))
+            else:
+                raise InvalidConfigFileError(str(config_file))
 
 
 def _write_file(config: dict):
-    config_file = Path(CONFIG_FILE_PATH).absolute()
+    config_file = Path(ELIBConfig.config_file_path).absolute()
     with config_file.open(mode='w', encoding='utf8') as stream:
-        yaml.dump(config, stream, Dumper=yaml.RoundTripDumper)
+        toml.dump(config, stream)
 
 
-def read_config_file(package: str = None) -> dict:
+def read_config_file() -> dict:
     """
     Reads configuration from the disk.
 
-    :param str package: optional package; if ``None``, reads the whole config.
     :return: configuration dictionary.
     :raises MissingConfigPackageError: raised if ``package`` is not ``None`` and it doesn't exist at the top level of
         the config file.
     """
-    config = _read_file()
-    if package is None:
-
-        return config
-    else:
-        try:
-            return config[package]
-        except KeyError:
-            raise MissingConfigPackageError(f'missing module in configuration file: {package}')
+    return _read_file()

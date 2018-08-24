@@ -7,6 +7,8 @@ from pathlib import Path
 import pytest
 from mockito import unstub
 
+_HERE = Path('.').absolute()
+
 
 def pytest_configure(config):
     """
@@ -51,4 +53,44 @@ def _global_tear_down(tmpdir, monkeypatch):
     os.chdir(folder)
     yield
     unstub()
+
+    # noinspection PyProtectedMember
+    from elib_config._setup import ELIBConfig
+    ELIBConfig.setup(
+        app_version='not_set',
+        app_name='not_set',
+        config_file_path='not_set',
+        config_sep_str='not_set'
+    )
     os.chdir(current_dir)
+
+
+@pytest.fixture(autouse=True)
+def dummy_setup(request):
+    """
+    Simple fixture to setup dummy values for the package config
+    """
+    marker = request.node.get_marker('skip_setup')
+    if marker is not None:
+        return
+
+    # noinspection PyProtectedMember
+    from elib_config._setup import ELIBConfig
+    ELIBConfig.setup(
+        app_version='0.1',
+        app_name='test',
+        config_file_path='config.toml',
+        config_sep_str='__'
+    )
+
+
+@pytest.fixture(autouse=True)
+def _clean_known_values():
+    # noinspection PyProtectedMember
+    from elib_config import _config_value
+    _config_value.ConfigValue.config_values = {}
+
+
+@pytest.fixture()
+def root_dir():
+    yield _HERE

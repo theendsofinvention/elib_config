@@ -1,31 +1,49 @@
 # coding=utf-8
+"""
+Defines config values as instances of ConfigValue that can be called to obtain their values.
+
+Values will be looked for in the OS environment first, then in the config file. If no value is found, the default will
+be returned, or an exception will be raised.
+
+Config value have strong type that will be checked and enforced at runtime.
+
+They also have a description, which will be used to create the example config file.
+"""
 import abc
 import os
 import typing
-from pathlib import Path
 
-from elib_config import ELIBConfigSetup
-from ._config_file import read_config_file
-from ._exc import ConfigMissingValueError, ConfigTypeError, NotAFileError, NotAFolderError, PathMustExistError
+# noinspection PyProtectedMember
+from elib_config._config_file import read_config_file
+# noinspection PyProtectedMember
+from elib_config._exc import ConfigMissingValueError, ConfigTypeError
+# noinspection PyProtectedMember
+from elib_config._setup import ELIBConfig
 
 SENTINEL = object()
 
 
 class ConfigValue(abc.ABC):
+    """
+    Abstract base class for config values
+    """
     config_values: typing.Dict[str, 'ConfigValue'] = {}
 
-    def __init__(self, *path: str, description: str, default=SENTINEL):
-        self.path: str = ELIBConfigSetup.sep_str.join(path)
+    def __init__(self, *path: str, description: str, default=SENTINEL) -> None:
+        self.path: str = ELIBConfig.config_sep_str.join(path)
         self.default: object = default
         self.description: str = description
         ConfigValue.config_values[self.path] = self
 
     @property
     def name(self) -> str:
+        """
+        :return: user friendly name of this value as a string
+        """
         return self.path.replace('__', ': ')
 
     def _from_environ(self) -> typing.Optional[object]:
-        var_name = ELIBConfigSetup.sep_str.join(('ESST', self.path)).upper()
+        var_name = ELIBConfig.config_sep_str.join((ELIBConfig.app_name, self.path)).upper()
         for env_var in os.environ:
             if env_var.upper() == var_name:
                 return os.getenv(env_var)
@@ -33,7 +51,7 @@ class ConfigValue(abc.ABC):
 
     def _from_config_file(self) -> typing.Optional[object]:
         value = read_config_file()
-        for key in self.path.split(ELIBConfigSetup.sep_str):
+        for key in self.path.split(ELIBConfig.config_sep_str):
             try:
                 value = value[key]
             except KeyError:
@@ -48,6 +66,9 @@ class ConfigValue(abc.ABC):
         return None
 
     def raw_value(self) -> typing.Optional[object]:
+        """
+        :return: raw value
+        """
         raw_value = self._from_environ()
         if raw_value is None:
             raw_value = self._from_config_file()
@@ -89,71 +110,3 @@ class ConfigValue(abc.ABC):
         #     return 'boolean'
         # elif self.value_type is list:
         #     return 'list'
-
-
-class ConfigValueString(ConfigValue):
-
-    @property
-    def type_name(self) -> str:
-        return 'string'
-
-    def _cast(self, raw_value) -> str:
-        if not isinstance(raw_value, str):
-            self._raise_invalid_type_error()
-        return raw_value
-
-
-class ConfigValueBool(ConfigValue):
-
-    @property
-    def type_name(self) -> str:
-        return 'boolean'
-
-    def _cast(self, raw_value) -> bool:
-        if isinstance(raw_value, str):
-            if raw_value.lower() == 'true':
-                return True
-            elif raw_value.lower() == 'false':
-                return False
-        raise ConfigTypeError(
-            self.path,
-            f'invalid boolean expression: "{raw_value}"; use either "true" or "false" instead.'
-        )
-
-
-class ConfigValuePath(ConfigValue):
-
-    def __init__(self, *path: str, description: str, default=SENTINEL):
-        ConfigValue.__init__(self, *path, description=description, default=default)
-        self._must_be_file: bool = False
-        self._must_be_dir: bool = False
-        self._create_dir: bool = False
-        self._must_exist: bool = False
-
-    def must_exist(self):
-        self._must_exist = True
-
-    def must_be_file(self):
-        self._must_be_file = True
-
-    def must_be_dir(self):
-        self._must_be_dir = True
-
-    def create_dir(self):
-        self._create_dir = True
-
-    @property
-    def type_name(self) -> str:
-        return 'path'
-
-    def _cast(self, raw_value) -> Path:
-        path = Path(raw_value)
-        if self._must_exist and not path.exists():
-            raise PathMustExistError(self.path)
-        if path.exists() and self._must_be_dir and not path.is_dir():
-            raise NotAFolderError(self.path)
-        if path.exists() and self._must_be_file and not path.is_file():
-            raise NotAFileError(self.path)
-        if not path.exists() and self._create_dir:
-            path.mkdir(parents=True)
-        return path.absolute()

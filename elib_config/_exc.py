@@ -8,11 +8,15 @@ class ELIBConfigError(Exception):
     """Base exception for config package"""
 
 
+class IncompleteSetupError(ELIBConfigError):
+    """Raised when elib_config is incomplete"""
+
+
 class _ConfigFileError(ELIBConfigError):
     """Base class for all exceptions related to the config file"""
 
-    def __init__(self, config_file_path: str, msg: str):
-        self.config_file_path: config_file_path
+    def __init__(self, config_file_path: str, msg: str) -> None:
+        self.config_file_path = config_file_path
         self.msg = msg
         super(_ConfigFileError, self).__init__(
             f'{config_file_path}: {msg}'
@@ -22,11 +26,17 @@ class _ConfigFileError(ELIBConfigError):
 class ConfigFileNotFoundError(_ConfigFileError):
     """Raised when the config file is missing"""
 
+    def __init__(self, config_file_path: str) -> None:
+        super(ConfigFileNotFoundError, self).__init__(
+            config_file_path,
+            'file not found'
+        )
+
 
 class InvalidConfigFileError(_ConfigFileError):
     """Raised when the format of the config file is invalid"""
 
-    def __init__(self, config_file_path: str):
+    def __init__(self, config_file_path: str) -> None:
         super(InvalidConfigFileError, self).__init__(
             config_file_path,
             'config file could not be decoded; have a look at https://github.com/toml-lang/toml for the TOML '
@@ -34,11 +44,21 @@ class InvalidConfigFileError(_ConfigFileError):
         )
 
 
+class EmptyValueError(_ConfigFileError):
+    """Raised when a config value in the config file is empty"""
+
+    def __init__(self, config_file_path: str) -> None:
+        super(EmptyValueError, self).__init__(
+            config_file_path,
+            'there is an empty value in the configuration file; look for an equal sign ("=") with no value to its right'
+        )
+
+
 class _ConfigValueError(ELIBConfigError):
     """Base class for all config values errors"""
 
-    def __init__(self, value_name: str, msg: str):
-        self.value_name: value_name
+    def __init__(self, value_name: str, msg: str) -> None:
+        self.value_name = value_name
         self.msg = msg
         super(_ConfigValueError, self).__init__(
             f'{value_name}: {msg}'
@@ -56,7 +76,7 @@ class ConfigValueError(_ConfigValueError):
 class PathMustExistError(ConfigValueError):
     """Raised a file/folder is not present"""
 
-    def __init__(self, value_name: str):
+    def __init__(self, value_name: str) -> None:
         super(PathMustExistError, self).__init__(
             value_name,
             'file/folder not found'
@@ -66,7 +86,7 @@ class PathMustExistError(ConfigValueError):
 class NotAFileError(ConfigValueError):
     """Raised when a given path is not a file"""
 
-    def __init__(self, value_name: str):
+    def __init__(self, value_name: str) -> None:
         super(NotAFileError, self).__init__(
             value_name,
             'not a file'
@@ -76,7 +96,7 @@ class NotAFileError(ConfigValueError):
 class NotAFolderError(ConfigValueError):
     """Raised when a given path is not a file"""
 
-    def __init__(self, value_name: str):
+    def __init__(self, value_name: str) -> None:
         super(NotAFolderError, self).__init__(
             value_name,
             'not a folder'

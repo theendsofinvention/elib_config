@@ -1,0 +1,11 @@
+[some]
+# value1
+# value type: test
+# MANDATORY CONFIG VALUE
+key = 
+
+# value2
+# value type: test
+# This configuration is optional and comes with a default setting
+# default: test
+# key2 = 
