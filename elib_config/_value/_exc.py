@@ -2,6 +2,8 @@
 """
 Exceptions for the value package
 """
+import typing
+
 # noinspection PyProtectedMember
 from elib_config._exc import ELIBConfigError
 
@@ -57,3 +59,11 @@ class NotAFolderError(ConfigValueError):
 
 class ConfigTypeError(_ConfigValueError):
     """Raised when the given value config is of an invalid type"""
+
+
+class OutOfBoundError(_ConfigValueError):
+    """Raised when a given integer is outside of the given limits"""
+
+    def __init__(self, value_name: str, value: int, min_: typing.Optional[int], max_: typing.Optional[int]) -> None:
+        msg = f'integer out of bound: "{value}"; limits are: minima: {min_}, maxima: {max_}'
+        super(OutOfBoundError, self).__init__(value_name, msg)
