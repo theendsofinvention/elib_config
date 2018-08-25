@@ -5,5 +5,11 @@
 htmlcov
 coverage.xml
 .mypy_cache
-epab.yml
 __pycache__
+.cache
+/dist/
+/build/
+*.spec
+/.pytest_cache/
+.hypothesis/
+*.egg-info/
