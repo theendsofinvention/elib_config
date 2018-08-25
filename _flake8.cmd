@@ -1,1 +1,0 @@
-pipenv run flake8 --ignore=D203,E126 --max-line-length=120 --exclude .venv,.svn,CVS,.bzr,.hg,.git,__pycache__,.tox,__init__.py,build,dist,output,.cache,.hypothesis,./test/*,./.eggs/*, --max-complexity=10
