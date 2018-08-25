@@ -13,15 +13,8 @@ test_requirements = [
     'pytest-pycharm',
     'hypothesis',
     'pytest-cache',
-    'coverage',
-    'wheel',
-    'twine',
-    'autopep8',
-    'pylint',
-    'safety',
-    'flake8',
     'pytest-cov',
-    'mypy',
+    'coverage',
     'mockito',
 ]
 
