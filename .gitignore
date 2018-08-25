@@ -5,7 +5,6 @@
 htmlcov
 coverage.xml
 .mypy_cache
-epab.yml
 __pycache__
 .cache
 /dist/
