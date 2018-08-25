@@ -2,7 +2,6 @@ package: 'elib_config'
 quiet: False
 verbose: False
 
-
 doc:
   repo: 'https://github.com/132nd-etcher/elib_config-doc.git'
   folder: './doc'
