@@ -8,21 +8,8 @@ toml = "*"
 setuptools-scm = ">=2.1.0"
 
 [dev-packages]
-pytest = "*"
-pytest-pycharm = "*"
-hypothesis = "*"
-pytest-cache = "*"
-coverage = "*"
-wheel = "*"
-twine = "*"
-"autopep8" = "*"
-pylint = "*"
-safety = "*"
-"flake8" = "*"
-pytest-cov = "*"
-mypy = "*"
-mockito = "*"
-epab = {ref = "master", git = "https://github.com/etcher-be/epab"}
+epab = ">=2018.8.27.4"
+elib-config = {editable = true, path = "."}
 
 [requires]
 python_version = "3.6"

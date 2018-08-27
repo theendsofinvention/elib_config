@@ -9,13 +9,7 @@ requirements = [
     'setuptools_scm',
 ]
 test_requirements = [
-    'pytest',
-    'pytest-pycharm',
-    'hypothesis',
-    'pytest-cache',
-    'pytest-cov',
-    'coverage',
-    'mockito',
+    'epab',
 ]
 
 CLASSIFIERS = filter(None, map(str.strip,
