@@ -14,3 +14,4 @@ __pycache__
 .hypothesis/
 *.egg-info/
 pyproject.toml.example
+.eggs
