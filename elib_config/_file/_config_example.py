@@ -43,8 +43,7 @@ def _extract_info(config_keys: dict) -> dict:
         if isinstance(config_keys[key], dict):
             config_keys[key] = _extract_info(config_keys[key])
         else:
-            value = config_keys[key]
-            assert isinstance(value, ConfigValue)
+            value: ConfigValue = config_keys[key]
             if value.default is SENTINEL:
                 _default: typing.Any = 'SENTINEL'
             else:
