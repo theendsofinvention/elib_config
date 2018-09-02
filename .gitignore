@@ -15,3 +15,5 @@ __pycache__
 *.egg-info/
 pyproject.toml.example
 .eggs
+packages_elib_config.png
+classes_elib_config.png
