@@ -40,6 +40,17 @@ def pytest_runtest_setup(item):
 
 
 @pytest.fixture(autouse=True)
+def clean_os_env():
+    env = os.environ.copy()
+    yield
+    for key, value in env.items():
+        os.environ[key] = value
+    for key in os.environ.keys():
+        if key not in env.keys():
+            del os.environ[key]
+
+
+@pytest.fixture(autouse=True)
 def _global_tear_down(tmpdir, monkeypatch):
     """
     Maintains a sane environment between tests
@@ -48,13 +59,11 @@ def _global_tear_down(tmpdir, monkeypatch):
         monkeypatch.delenv('APPVEYOR')
     except KeyError:
         pass
-    os_env = dict(os.environ)
     current_dir = os.getcwd()
     folder = Path(tmpdir).absolute()
     os.chdir(folder)
     yield
     unstub()
-    os.environ = os_env
     # noinspection PyProtectedMember
     from elib_config._setup import ELIBConfig
     ELIBConfig.setup(
