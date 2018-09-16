@@ -36,7 +36,7 @@ class ConfigValueInteger(ConfigValue):
         return value
 
     # pylint: disable=useless-super-delegation
-    def __call__(self) -> str:
+    def __call__(self) -> int:
         return super(ConfigValueInteger, self).__call__()
 
     def set_limits(self, min_=None, max_=None):
