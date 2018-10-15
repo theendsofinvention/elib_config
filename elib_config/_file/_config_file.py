@@ -38,7 +38,7 @@ def _read_file() -> dict:
             if 'Empty value is invalid' in error.args:
                 raise EmptyValueError(str(config_file))
             else:
-                raise InvalidConfigFileError(str(config_file))
+                raise InvalidConfigFileError(str(config_file), error.args)
 
 
 def _write_file(config: dict):
