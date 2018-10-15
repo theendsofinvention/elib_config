@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1b1083469611acc2da8f01f3d4584caa88ebaf5ed4348e8993f8e7b2fe0e1d67"
+            "sha256": "2f3344fa52b820f3cdb2375c717c5a1812548f4a1ee1fecf2ffecc7f61275f92"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,26 @@
         ]
     },
     "default": {
+        "dataclasses": {
+            "hashes": [
+                "sha256:454a69d788c7fda44efd71e259be79577822f5e3f53f029a22d08004e951dc9f",
+                "sha256:6988bd2b895eef432d562370bb707d540f32f7360ab13da45340101bc2307d84"
+            ],
+            "version": "==0.6"
+        },
+        "elib-run": {
+            "hashes": [
+                "sha256:c46a2910b4222c5ad717eec00871f2671a1c463f7dd17484d7318d68e9b0ce6a"
+            ],
+            "index": "pypi",
+            "version": "==2018.9.9.1"
+        },
+        "sarge": {
+            "hashes": [
+                "sha256:da8cc90883f8e5ab4af0d746438f608662f5f2a35da2e858517927edefa134b0"
+            ],
+            "version": "==0.1.5.post0"
+        },
         "setuptools-scm": {
             "hashes": [
                 "sha256:1191f2a136b5e86f7ca8ab00a97ef7aef997131f1f6d4971be69a1ef387d8b40",
@@ -258,16 +278,17 @@
         },
         "elib-run": {
             "hashes": [
-                "sha256:ec8cf39aed9bc2c22ba2ea1c71fef895e7c17b48d7f9a718e1b5bd801d890aa3"
+                "sha256:c46a2910b4222c5ad717eec00871f2671a1c463f7dd17484d7318d68e9b0ce6a"
             ],
-            "version": "==2018.10.15.1"
+            "index": "pypi",
+            "version": "==2018.9.9.1"
         },
         "epab": {
             "hashes": [
-                "sha256:52e067c8f1ba4e25bdcdfe0388defca743c6dc81b98c1fb4cf3efa5225b09178"
+                "sha256:a5c200dd2a0d100ea944ef86da873680ed636ea8530b40be0e531a2faa76a43d"
             ],
             "index": "pypi",
-            "version": "==2018.10.14.2"
+            "version": "==2018.10.15.1"
         },
         "execnet": {
             "hashes": [
@@ -431,10 +452,10 @@
         },
         "mypy": {
             "hashes": [
-                "sha256:00b95bfdc0d5b9aa53c906e56fb91937743f2121d66684db5f947ec5d75f565d",
-                "sha256:6704586b4c2bf7dfa5e87a422be9ca57db622bab65008245759f3d4baeb219dd"
+                "sha256:8e071ec32cc226e948a34bbb3d196eb0fd96f3ac69b6843a5aff9bd4efa14455",
+                "sha256:fb90c804b84cfd8133d3ddfbd630252694d11ccc1eb0166a1b2efb5da37ecab2"
             ],
-            "version": "==0.630"
+            "version": "==0.641"
         },
         "mypy-extensions": {
             "hashes": [
