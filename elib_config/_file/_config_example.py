@@ -47,7 +47,10 @@ def _extract_info(config_keys: dict) -> dict:
             if value.default is SENTINEL:
                 _default: typing.Any = 'SENTINEL'
             else:
-                _default = value.default
+                if value.type_name == 'boolean':
+                    _default = str(value.default).lower()
+                else:
+                    _default = value.default
             config_keys[key] = f'{value.description}||{value.type_name}||{_default}'
     return config_keys
 
