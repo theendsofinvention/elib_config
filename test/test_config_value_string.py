@@ -52,3 +52,10 @@ def test_invalid_cast_type_from_config_file(value, file_value):
 def test_valid_cast_type_from_config_file(value):
     pathlib.Path('config.toml').write_text(f'key = "some string"')
     assert value() == 'some string'
+    assert isinstance(value(), str)
+
+
+def test_valid_cast_type_from_config_file_single_quotes(value):
+    pathlib.Path('config.toml').write_text(f'key = \'some string\'')
+    assert value() == 'some string'
+    assert isinstance(value(), str)
