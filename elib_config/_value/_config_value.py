@@ -33,7 +33,7 @@ class ConfigValue(abc.ABC):
 
     def __init__(self, *path: str, description: str, default=SENTINEL) -> None:
         self._raw_path = path
-        self.default: object = default
+        self.default: typing.Any = default
         self.description: str = description
         ConfigValue.config_values.append(self)
 
