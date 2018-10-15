@@ -76,7 +76,7 @@ def test_config_values_to_text_mandatory_values():
     try:
         toml.loads(test_file.read_text('utf8'))
     except toml.TomlDecodeError as error:
-        if 'Empty value is invalid' in error.args:
+        if 'Empty value is invalid' in error.args[0]:
             pass
         else:
             raise

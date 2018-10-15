@@ -35,7 +35,7 @@ def _read_file() -> dict:
         try:
             return toml.load(stream)
         except toml.TomlDecodeError as error:
-            if 'Empty value is invalid' in error.args:
+            if error.args and 'Empty value is invalid' in error.args[0]:
                 raise EmptyValueError(str(config_file))
             else:
                 raise InvalidConfigFileError(str(config_file), error.args)
