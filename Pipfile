@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 toml = "*"
 setuptools-scm = ">=2.1.0"
+elib_run = "==2018.9.9.1'"
 
 [dev-packages]
 epab = ">=2018.8.27.4"

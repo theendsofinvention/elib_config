@@ -3,6 +3,8 @@
 Exceptions for the file package
 """
 
+import typing
+
 # noinspection PyProtectedMember
 from elib_config._exc import ELIBConfigError
 
@@ -35,11 +37,15 @@ class ConfigFileNotFoundError(_ConfigFileError):
 class InvalidConfigFileError(_ConfigFileError):
     """Raised when the format of the config file is invalid"""
 
-    def __init__(self, config_file_path: str) -> None:
+    def __init__(self, config_file_path: str, additional_info: typing.Optional[typing.Iterable[str]] = None) -> None:
+        if additional_info:
+            _info = '\n' + ', '.join(additional_info)
+        else:
+            _info = ''
         super(InvalidConfigFileError, self).__init__(
             config_file_path,
             'config file could not be decoded; have a look at https://github.com/toml-lang/toml for the TOML '
-            'language specification'
+            'language specification' + _info
         )
 
 

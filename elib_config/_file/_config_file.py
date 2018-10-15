@@ -2,6 +2,7 @@
 """
 Reads and writes ESST's config to/from a file.
 """
+import typing
 import multiprocessing
 from pathlib import Path
 
@@ -27,7 +28,7 @@ def _ensure_config_file_exists():
         raise ConfigFileNotFoundError(ELIBConfig.config_file_path)
 
 
-def _read_file() -> dict:
+def _read_file() -> typing.MutableMapping[str, typing.Any]:
     config_file = Path(ELIBConfig.config_file_path).absolute()
     if not config_file.exists():
         return {}
@@ -35,10 +36,10 @@ def _read_file() -> dict:
         try:
             return toml.load(stream)
         except toml.TomlDecodeError as error:
-            if 'Empty value is invalid' in error.args:
+            if error.args and 'Empty value is invalid' in error.args[0]:
                 raise EmptyValueError(str(config_file))
             else:
-                raise InvalidConfigFileError(str(config_file))
+                raise InvalidConfigFileError(str(config_file), error.args)
 
 
 def _write_file(config: dict):
@@ -47,7 +48,7 @@ def _write_file(config: dict):
         toml.dump(config, stream)
 
 
-def read_config_file() -> dict:
+def read_config_file() -> typing.MutableMapping[str, typing.Any]:
     """
     Reads configuration from the disk.
 
