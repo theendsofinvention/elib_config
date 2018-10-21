@@ -19,8 +19,9 @@ from elib_config._value._exc import (
 # noinspection PyProtectedMember
 from ._file._config_example import write_example_config
 from ._setup import ELIBConfig
+from ._validate import validate_config
 # noinspection PyProtectedMember
-from ._value._config_value import SENTINEL, validate_config
+from ._value._config_value import SENTINEL
 # noinspection PyProtectedMember
 from ._value._config_value_bool import ConfigValueBool
 # noinspection PyProtectedMember
