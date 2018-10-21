@@ -4,8 +4,8 @@ Exceptions for the value package
 """
 import typing
 
-# noinspection PyProtectedMember
 from elib_config._exc import ELIBConfigError
+
 
 
 class _ConfigValueError(ELIBConfigError):
@@ -67,13 +67,33 @@ class NotAFolderError(ConfigValueError):
         )
 
 
-class ConfigTypeError(_ConfigValueError):
+class ConfigValueTypeError(_ConfigValueError):
     """Raised when the given value config is of an invalid type"""
 
 
 class OutOfBoundError(_ConfigValueError):
     """Raised when a given integer is outside of the given limits"""
 
-    def __init__(self, value_name: str, value: int, min_: typing.Optional[int], max_: typing.Optional[int]) -> None:
+    def __init__(self,
+                 value_name: str,
+                 value: float,
+                 min_: typing.Optional[float],
+                 max_: typing.Optional[float]
+                 ) -> None:
         msg = f'integer out of bound: "{value}"; limits are: minima: {min_}, maxima: {max_}'
         super(OutOfBoundError, self).__init__(value_name, msg)
+
+
+class MissingTableKeyError(_ConfigValueError):
+    """Raised when a non optional key is missing in a table"""
+
+    def __init__(self, value_name: str, key_name: str):
+        super(MissingTableKeyError, self).__init__(value_name, f'missing key in table: {key_name}')
+
+
+class TableKeyTypeError(_ConfigValueError):
+    """Raised when a key in a table is of the wrong type"""
+
+    def __init__(self, value_name: str, key_name: str, key_expected_type, key_actual_type):
+        msg = f'{key_name}: expected a value of type "{key_expected_type}", got "{key_actual_type}" instead'
+        super(TableKeyTypeError, self).__init__(value_name, msg)

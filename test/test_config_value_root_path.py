@@ -16,6 +16,9 @@ class DummyValue(_config_value.ConfigValue):
     def type_name(self) -> str:
         return 'dummy'
 
+    def _toml_add_examples(self):
+        pass
+
 
 def test_config_value_with_root_path():
     value = DummyValue(

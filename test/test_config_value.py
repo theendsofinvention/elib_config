@@ -4,6 +4,7 @@ import os
 import pathlib
 
 import pytest
+import tomlkit.container
 
 from elib_config import ConfigMissingValueError
 # noinspection PyProtectedMember
@@ -21,6 +22,9 @@ def _dummy_value():
 
 class DummyConfigValue(_config_value.ConfigValue):
 
+    def _toml_add_examples(self, toml_obj: tomlkit.container.Container):
+        pass
+
     def _cast(self, raw_value):
         return raw_value
 
@@ -34,7 +38,7 @@ def test_config_value_basic(dummy_value):
     dummy_value.default = 'some default'
     assert dummy_value() == 'some default'
     assert dummy_value.type_name == 'test'
-    assert dummy_value.name == 'dummy: test: config_value'
+    assert dummy_value.name == 'dummy.test.config_value'
 
 
 def test_value_no_default(dummy_value):
@@ -58,3 +62,15 @@ def test_value_in_config_file(dummy_value):
         """
     )
     assert dummy_value() == 'some value'
+
+
+@pytest.mark.parametrize(
+    'value_name',
+    [
+        ('some', 'path'),
+        ('some', 'nested', 'path'),
+    ]
+)
+def test_config_value_name(value_name):
+    config_value = DummyConfigValue(*value_name, description='')
+    assert '.'.join(value_name) == config_value.name

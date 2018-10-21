@@ -5,7 +5,7 @@ import pathlib
 import pytest
 
 from elib_config import (
-    ConfigMissingValueError, ConfigTypeError, ConfigValuePath, NotAFileError, NotAFolderError,
+    ConfigMissingValueError, ConfigValueTypeError, ConfigValuePath, NotAFileError, NotAFolderError,
     PathMustExistError,
 )
 
@@ -48,7 +48,7 @@ def test_string_value_type_name(value):
 def test_invalid_cast_type_from_config_file(value, file_value):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
     exc_msg = f'{value.name}: config value must be of type "path", got .* instead'
-    with pytest.raises(ConfigTypeError, match=exc_msg):
+    with pytest.raises(ConfigValueTypeError, match=exc_msg):
         value()
 
 

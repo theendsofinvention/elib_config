@@ -10,8 +10,8 @@ from elib_config import _utils
     'raw_type,friendly_name',
     [
         (str, 'string'),
-        (dict, 'dictionary'),
-        (list, 'list'),
+        (dict, 'table'),
+        (list, 'array'),
         (int, 'integer'),
         (float, 'float'),
         (bool, 'boolean'),
@@ -19,9 +19,3 @@ from elib_config import _utils
 )
 def test_friendly_type_name(raw_type, friendly_name):
     assert friendly_name == _utils.friendly_type_name(raw_type)
-
-
-def test_unknown_type():
-    with pytest.raises(ValueError, match='unknown type: .*'):
-        # noinspection PyTypeChecker
-        _utils.friendly_type_name(None)

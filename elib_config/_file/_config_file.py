@@ -6,15 +6,16 @@ import typing
 import multiprocessing
 from pathlib import Path
 
-import toml
+import tomlkit
+import tomlkit.exceptions
 
 # noinspection PyProtectedMember
 from elib_config._setup import ELIBConfig
 # noinspection PyProtectedMember
-from ._exc import ConfigFileNotFoundError, EmptyValueError, InvalidConfigFileError
+from ._exc import ConfigFileNotFoundError, EmptyValueError
 
-CONFIG_LOCK = multiprocessing.Lock()
-""":py:class:`multiprocessing.Lock` that blocks concurrent access to the config file by multiple processes"""
+CONFIG_LOCK = multiprocessing.RLock()
+""":py:class:`multiprocessing.RLock` that blocks concurrent access to the config file by multiple processes"""
 
 
 def _ensure_config_file_exists():
@@ -34,18 +35,19 @@ def _read_file() -> typing.MutableMapping[str, typing.Any]:
         return {}
     with config_file.open(encoding='utf8') as stream:
         try:
-            return toml.load(stream)
-        except toml.TomlDecodeError as error:
-            if error.args and 'Empty value is invalid' in error.args[0]:
-                raise EmptyValueError(str(config_file))
+            return tomlkit.parse(stream.read())
+        except tomlkit.exceptions.UnexpectedCharError as err:
+            if r"Unexpected character: '\n'" in err.args[0]:
+                # noinspection PyProtectedMember
+                raise EmptyValueError(str(config_file), err._line)
             else:
-                raise InvalidConfigFileError(str(config_file), error.args)
+                raise
 
 
 def _write_file(config: dict):
     config_file = Path(ELIBConfig.config_file_path).absolute()
     with config_file.open(mode='w', encoding='utf8') as stream:
-        toml.dump(config, stream)
+        stream.write(tomlkit.dumps(config))
 
 
 def read_config_file() -> typing.MutableMapping[str, typing.Any]:

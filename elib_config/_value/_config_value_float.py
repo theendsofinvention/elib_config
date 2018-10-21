@@ -2,44 +2,38 @@
 """
 Config value that will be cast as a string
 """
-# noinspection PyProtectedMember
-from ._config_value import ConfigValue, SENTINEL
-from ._exc import OutOfBoundError
+import typing
+import tomlkit.container
+
+from ._config_value_integer import ConfigValueInteger
+from elib_config._types import Types
 
 
-class ConfigValueInteger(ConfigValue):
+class ConfigValueFloat(ConfigValueInteger):
     """
     Config value that will be cast as a string
     """
-
-    def __init__(self, *path: str, description: str, default=SENTINEL) -> None:
-        super(ConfigValueInteger, self).__init__(*path, description=description, default=default)
-        self._min = None
-        self._max = None
 
     @property
     def type_name(self) -> str:
         """
         :return: user friendly type for this config value
         """
-        return 'integer'
+        return Types.float
 
-    def _raise_out_of_bound_error(self, value: int):
-        raise OutOfBoundError(self.name, value, self._min, self._max)
-
-    def _cast(self, raw_value) -> int:
-        if not isinstance(raw_value, int) or isinstance(raw_value, bool):
+    def _cast(self, raw_value) -> float:
+        if not isinstance(raw_value, float):
             return self._raise_invalid_type_error()
-        value = int(raw_value)
+        value = float(raw_value)
         if (self._min and value < self._min) or (self._max and value > self._max):
             return self._raise_out_of_bound_error(value)
         return value
 
     # pylint: disable=useless-super-delegation
-    def __call__(self) -> int:
-        return super(ConfigValueInteger, self).__call__()
+    def __call__(self) -> float:
+        return super(ConfigValueFloat, self).__call__()
 
-    def set_limits(self, min_=None, max_=None):
+    def set_limits(self, min_: typing.Optional[float] = None, max_: typing.Optional[float] = None):
         """
         Sets limits for this config value
 
@@ -49,3 +43,8 @@ class ConfigValueInteger(ConfigValue):
         :param max_: maxima
         """
         self._min, self._max = min_, max_
+
+    def _toml_add_examples(self, toml_obj: tomlkit.container.Container):
+        self._toml_comment(toml_obj, 'example = 132.5')
+        self._toml_comment(toml_obj, 'example = 0.0')
+        self._toml_comment(toml_obj, 'example = -20.765')

@@ -2,10 +2,11 @@
 """
 Config value that will be cast as a boolean
 """
-# noinspection PyProtectedMember
+import tomlkit.container
+
+from elib_config._types import Types
 from ._config_value import ConfigValue
-# noinspection PyProtectedMember
-from ._exc import ConfigTypeError
+from ._exc import ConfigValueTypeError
 
 
 class ConfigValueBool(ConfigValue):
@@ -18,11 +19,11 @@ class ConfigValueBool(ConfigValue):
         """
         :return: user friendly type for this config value
         """
-        return 'boolean'
+        return Types.boolean
 
     def _cast(self, raw_value) -> bool:
         if not isinstance(raw_value, bool):
-            raise ConfigTypeError(
+            raise ConfigValueTypeError(
                 self.path,
                 f'invalid boolean expression: "{raw_value}"; use either "true" or "false" instead, without the quotes.'
             )
@@ -32,3 +33,8 @@ class ConfigValueBool(ConfigValue):
     # pylint: disable=useless-super-delegation
     def __call__(self) -> bool:
         return super(ConfigValueBool, self).__call__()
+
+    def _toml_add_examples(self, toml_obj: tomlkit.container.Container):
+        self._toml_comment(toml_obj, '"true" and "false" are the only valid boolean values')
+        self._toml_comment(toml_obj, 'example = true')
+        self._toml_comment(toml_obj, 'example = false')

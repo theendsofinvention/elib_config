@@ -2,9 +2,11 @@
 """
 Config value that will be cast as a string
 """
-# noinspection PyProtectedMember
+import tomlkit.container
+
 from ._config_value import ConfigValue, SENTINEL
 from ._exc import OutOfBoundError
+from elib_config._types import Types
 
 
 class ConfigValueInteger(ConfigValue):
@@ -22,9 +24,9 @@ class ConfigValueInteger(ConfigValue):
         """
         :return: user friendly type for this config value
         """
-        return 'integer'
+        return Types.integer
 
-    def _raise_out_of_bound_error(self, value: int):
+    def _raise_out_of_bound_error(self, value: float):
         raise OutOfBoundError(self.name, value, self._min, self._max)
 
     def _cast(self, raw_value) -> int:
@@ -49,3 +51,8 @@ class ConfigValueInteger(ConfigValue):
         :param max_: maxima
         """
         self._min, self._max = min_, max_
+
+    def _toml_add_examples(self, toml_obj: tomlkit.container.Container):
+        self._toml_comment(toml_obj, 'example = 10')
+        self._toml_comment(toml_obj, 'example = 0')
+        self._toml_comment(toml_obj, 'example = -5')
