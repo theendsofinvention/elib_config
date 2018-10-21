@@ -1,4 +1,7 @@
 # coding=utf-8
+"""
+Verifies that all configuration values have a valid setting
+"""
 
 from elib_config._setup import ELIBConfig
 # noinspection PyProtectedMember
@@ -10,7 +13,6 @@ from elib_config._value._exc import DuplicateConfigValueError
 def validate_config():
     """
     Verifies that all configuration values have a valid setting
-    :return:
     """
     ELIBConfig.check()
     known_paths = set()

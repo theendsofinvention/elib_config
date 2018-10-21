@@ -20,7 +20,7 @@ class ConfigValueTableKey:
     key_name: str
     key_type: typing.Type
     description: str
-    default: typing.Any = SENTINEL
+    default: typing.Any = SENTINEL  # noqa
 
     @property
     def user_friendly_type(self) -> str:
@@ -48,7 +48,7 @@ class ConfigValueTableArray(ConfigValue):
                  *path: str,
                  description: str,
                  default=SENTINEL,
-                 keys: typing.Optional[typing.Iterable[ConfigValueTableKey]] = SENTINEL) -> None:
+                 keys: typing.Iterable[ConfigValueTableKey] = SENTINEL) -> None:
         super(ConfigValueTableArray, self).__init__(*path, description=description, default=default)
         self.keys = [] if keys is SENTINEL else keys
 
@@ -98,7 +98,6 @@ class ConfigValueTableArray(ConfigValue):
         self._toml_comment(toml_obj, f'value type: {self.friendly_type_name}')
         self._toml_comment(toml_obj, '')
         self._toml_comment(toml_obj, 'Type of keys:')
-        _doc = tomlkit.document()
         for key in self.keys:
             if key.mandatory:
                 _key_state = 'This key is MANDATORY'

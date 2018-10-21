@@ -30,7 +30,7 @@ class ConfigValueFloat(ConfigValueInteger):
         return value
 
     # pylint: disable=useless-super-delegation
-    def __call__(self) -> float:
+    def __call__(self) -> float:  # mypy: ignore
         return super(ConfigValueFloat, self).__call__()
 
     def set_limits(self, min_: typing.Optional[float] = None, max_: typing.Optional[float] = None):

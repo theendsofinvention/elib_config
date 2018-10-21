@@ -39,7 +39,7 @@ def _read_file() -> typing.MutableMapping[str, typing.Any]:
         except tomlkit.exceptions.UnexpectedCharError as err:
             if r"Unexpected character: '\n'" in err.args[0]:
                 # noinspection PyProtectedMember
-                raise EmptyValueError(str(config_file), err._line)
+                raise EmptyValueError(str(config_file), err._line)  # pylint: disable=protected-access
             else:
                 raise
 

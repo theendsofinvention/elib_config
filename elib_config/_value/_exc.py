@@ -7,7 +7,6 @@ import typing
 from elib_config._exc import ELIBConfigError
 
 
-
 class _ConfigValueError(ELIBConfigError):
     """Base class for all config values errors"""
 

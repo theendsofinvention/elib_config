@@ -17,7 +17,6 @@ import tomlkit.container
 
 # noinspection PyProtectedMember
 from elib_config._file._config_file import read_config_file
-from elib_config._logging import LOGGER
 from elib_config._setup import ELIBConfig
 from elib_config._utils import friendly_type_name
 from ._exc import ConfigMissingValueError, ConfigValueTypeError

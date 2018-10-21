@@ -1,5 +1,7 @@
 # coding=utf-8
-
+"""
+elib_config root logger
+"""
 
 import logging
 
