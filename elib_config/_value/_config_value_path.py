@@ -40,12 +40,16 @@ class ConfigValuePath(ConfigValue):
         """
         Indicates that, if it exists, this path must be a file
         """
+        if self._must_be_dir:
+            raise AttributeError('path config value cannot be both a file and a directory')
         self._must_be_file = True
 
     def must_be_dir(self):
         """
         Indicates that, if it exists, this path must be a directory
         """
+        if self._must_be_file:
+            raise AttributeError('path config value cannot be both a file and a directory')
         self._must_be_dir = True
 
     def create_dir(self):
