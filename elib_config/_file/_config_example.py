@@ -59,15 +59,13 @@ def _aggregate_config_values(config_values: typing.List[ConfigValue]) -> dict:
 
 
 def _add_config_values_to_toml_object(toml_obj: TOMLContainer, data: typing.Dict[str, typing.Union[dict, ConfigValue]]):
-    if isinstance(data, dict):
-        for key_name, key_data in data.items():
-            if isinstance(key_data, dict):
-                table = tomlkit.table()
-                _add_config_values_to_toml_object(table, key_data)
-                toml_obj[key_name] = table
-            else:
-                key_data.add_to_toml_obj(toml_obj, _NOT_SET)
-                # _add_value_to_container(toml_obj, key_data)
+    for key_name, key_data in data.items():
+        if isinstance(key_data, dict):
+            table = tomlkit.table()
+            _add_config_values_to_toml_object(table, key_data)
+            toml_obj[key_name] = table
+        else:
+            key_data.add_to_toml_obj(toml_obj, _NOT_SET)
 
 
 def write_example_config(example_file_path: str):
