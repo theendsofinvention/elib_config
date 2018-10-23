@@ -121,7 +121,7 @@ class ConfigValueTableArray(ConfigValue):
         for key in self.keys:
             if not key.mandatory:
                 _value = key.default
-            else:
+            else:  # pragma: no cover
                 if key.key_type == str:
                     _value = "some text"
                 elif key.key_type == int:
