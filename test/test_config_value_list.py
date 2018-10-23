@@ -80,3 +80,9 @@ def test_element_type_check_from_file(value: ConfigValueList, not_a_string):
     error = f'{value.name}: item at index 0 should be a "string", but is .* instead'
     with pytest.raises(ConfigValueTypeError, match=error):
         value()
+
+
+def test_toml_example_unmanaged_element_type():
+    value = ConfigValueList('test', element_type=bool, description='')
+    with pytest.raises(KeyError):
+        value._toml_add_examples({})

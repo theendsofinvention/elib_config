@@ -119,3 +119,15 @@ def test_path_value_create_missing_dir(value: ConfigValuePath):
     assert not test_path.exists()
     value()
     assert test_path.exists()
+
+
+def test_path_value_must_be_both(value: ConfigValuePath):
+    value.must_be_dir()
+    with pytest.raises(AttributeError):
+        value.must_be_file()
+
+
+def test_path_value_must_be_both2(value: ConfigValuePath):
+    value.must_be_file()
+    with pytest.raises(AttributeError):
+        value.must_be_dir()
