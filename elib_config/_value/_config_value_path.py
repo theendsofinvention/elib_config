@@ -71,13 +71,13 @@ class ConfigValuePath(ConfigValue):
         :return: friendly type name for the end-user
         :rtype: str
         """
-        _constraints_set = set()
+        _constraints_set = []
         if self._must_be_dir:
-            _constraints_set.add('must be a directory')
+            _constraints_set.append('must be a directory')
         if self._must_be_file:
-            _constraints_set.add('must be a file')
+            _constraints_set.append('must be a file')
         if self._must_exist:
-            _constraints_set.add('must already exist')
+            _constraints_set.append('must already exist')
         _constraints_as_str = ' (' + ', '.join(_constraints_set) + ')' if _constraints_set else ''
         return 'path' + _constraints_as_str
 
