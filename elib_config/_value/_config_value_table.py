@@ -65,8 +65,10 @@ class ConfigValueTableArray(ConfigValue):
                 if key.mandatory:
                     raise MissingTableKeyError(self.name, str(key))
                 else:
-                    continue
-            key_value = raw_value[key.key_name]
+                    key_value = key.default
+                    raw_value[key.key_name] = key_value
+            else:
+                key_value = raw_value[key.key_name]
             if not isinstance(key_value, key.key_type):
                 raise TableKeyTypeError(self.name,
                                         key.key_name,
