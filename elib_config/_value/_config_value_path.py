@@ -23,16 +23,12 @@ class ConfigValuePath(ConfigValue):
                  *path: str,
                  description: str,
                  default: typing.Any = SENTINEL,
-                 must_be_file: bool = False,
-                 must_be_dir: bool = False,
-                 create_dir: bool = False,
-                 must_exist: bool = False,
                  ) -> None:
         ConfigValue.__init__(self, *path, description=description, default=default)
-        self._must_be_file: bool = must_be_file
-        self._must_be_dir: bool = must_be_dir
-        self._create_dir: bool = create_dir
-        self._must_exist: bool = must_exist
+        self._must_be_file: bool = False
+        self._must_be_dir: bool = False
+        self._create_dir: bool = False
+        self._must_exist: bool = False
 
     def must_exist(self):
         """
