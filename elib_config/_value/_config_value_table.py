@@ -7,10 +7,9 @@ import typing
 import dataclasses
 import tomlkit.container
 
+from elib_config._utils import friendly_type_name
 from ._config_value import ConfigValue, SENTINEL
 from ._exc import MissingTableKeyError, TableKeyTypeError
-from elib_config._utils import friendly_type_name
-
 
 _KEY_VALUE_EXAMPLES = {
     str: "some text",
@@ -110,23 +109,25 @@ class ConfigValueTableArray(ConfigValue):
     def __getitem__(self, item):
         return self.__getattr__(item)
 
+    @staticmethod
+    def _get_key_state_as_comment(key: ConfigValueTableKey) -> str:
+        if key.mandatory:
+            return 'This key is MANDATORY'
+
+        return 'This key is optional, and has a default value of: ' + str(key.default)
+
     def _toml_add_value_type(self, toml_obj: tomlkit.container.Container):
         self._toml_comment(toml_obj, f'value type: {self.friendly_type_name}')
         self._toml_comment(toml_obj, '')
         self._toml_comment(toml_obj, 'Type of keys:')
         for key in self.keys:
-            if key.mandatory:
-                _key_state = 'This key is MANDATORY'
-            else:
-                _key_state = 'This key is optional, and has a default value of: ' + str(key.default)
-            _comments = [
-                f'key name: {key.key_name}',
-                f'key type: {key.user_friendly_type}',
-                key.description,
-                _key_state,
-                '',
-            ]
-            for comment in _comments:
+            _key_state = self._get_key_state_as_comment(key)
+            for comment in [f'key name: {key.key_name}',
+                            f'key type: {key.user_friendly_type}',
+                            key.description,
+                            _key_state,
+                            '',
+                            ]:
                 toml_obj.add(tomlkit.comment((' ' * 4 + comment).rstrip()))
 
     @staticmethod
