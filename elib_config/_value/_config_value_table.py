@@ -12,6 +12,14 @@ from ._exc import MissingTableKeyError, TableKeyTypeError
 from elib_config._utils import friendly_type_name
 
 
+_KEY_VALUE_EXAMPLES = {
+    str: "some text",
+    int: 1,
+    float: 1.0,
+    bool: True
+}
+
+
 @dataclasses.dataclass
 class ConfigValueTableKey:
     """
@@ -59,22 +67,28 @@ class ConfigValueTableArray(ConfigValue):
         """
         return 'array of tables'
 
+    def _check_key_type(self, key, key_value):
+        if not isinstance(key_value, key.key_type):
+            raise TableKeyTypeError(self.name,
+                                    key.key_name,
+                                    friendly_type_name(key.key_type),
+                                    friendly_type_name(type(key_value)),
+                                    )
+
+    def _get_key_value(self, raw_value: dict, key: ConfigValueTableKey):
+        if key.key_name not in raw_value:
+            if key.mandatory:
+                raise MissingTableKeyError(self.name, str(key))
+            else:
+                raw_value[key.key_name] = key.default
+                return key.default
+
+        return raw_value[key.key_name]
+
     def _check_keys(self, raw_value: dict) -> dict:
         for key in self.keys:
-            if key.key_name not in raw_value:
-                if key.mandatory:
-                    raise MissingTableKeyError(self.name, str(key))
-                else:
-                    key_value = key.default
-                    raw_value[key.key_name] = key_value
-            else:
-                key_value = raw_value[key.key_name]
-            if not isinstance(key_value, key.key_type):
-                raise TableKeyTypeError(self.name,
-                                        key.key_name,
-                                        friendly_type_name(key.key_type),
-                                        friendly_type_name(type(key_value)),
-                                        )
+            key_value = self._get_key_value(raw_value, key)
+            self._check_key_type(key, key_value)
         return raw_value
 
     def _cast(self, raw_value) -> dict:
@@ -115,24 +129,24 @@ class ConfigValueTableArray(ConfigValue):
             for comment in _comments:
                 toml_obj.add(tomlkit.comment((' ' * 4 + comment).rstrip()))
 
+    @staticmethod
+    def _add_key_to_example_table(_table: tomlkit.container.Container, key: ConfigValueTableKey):
+        if not key.mandatory:
+            _value = key.default
+        else:
+            if key.key_type not in _KEY_VALUE_EXAMPLES:
+                raise KeyError(f'unmanaged key type: {key.key_type}')
+            else:
+                # noinspection PyTypeChecker
+                _value = _KEY_VALUE_EXAMPLES[key.key_type]
+
+        _table[key.key_name] = _value
+
     def _generate_example(self) -> typing.List[str]:
         _doc = tomlkit.document()
         _table = tomlkit.table()
         for key in self.keys:
-            if not key.mandatory:
-                _value = key.default
-            else:  # pragma: no cover
-                if key.key_type == str:
-                    _value = "some text"
-                elif key.key_type == int:
-                    _value = 1
-                elif key.key_type == float:
-                    _value = 1.0
-                elif key.key_type == bool:
-                    _value = True
-                else:
-                    raise KeyError(f'unmanaged key type: {key.key_type}')
-            _table[key.key_name] = _value
+            self._add_key_to_example_table(_table, key)
         _array = tomlkit.aot()
         _array.append(_table)
         _doc[self.key] = _array
