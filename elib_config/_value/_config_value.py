@@ -13,18 +13,15 @@ import abc
 import os
 import typing
 
-import tomlkit.container
-
 # noinspection PyProtectedMember
 from elib_config._file._config_file import read_config_file
 from elib_config._setup import ELIBConfig
 from elib_config._utils import friendly_type_name
+from elib_config._value._config_value_toml import ConfigValueTOML, SENTINEL
 from ._exc import ConfigMissingValueError, ConfigValueTypeError
 
-SENTINEL: typing.Any = object()
 
-
-class ConfigValue(abc.ABC):
+class ConfigValue(ConfigValueTOML, abc.ABC):
     """
     Abstract base class for config values
     """
@@ -128,53 +125,3 @@ class ConfigValue(abc.ABC):
         :rtype: str
         """
         return self.type_name
-
-    def _toml_add_description(self, toml_obj: tomlkit.container.Container):
-        toml_obj.add(tomlkit.comment(self.description))
-
-    def _toml_add_value_type(self, toml_obj: tomlkit.container.Container):
-        toml_obj.add(tomlkit.comment(f'value type: {self.friendly_type_name}'))
-
-    def _toml_add_comments(self, toml_obj: tomlkit.container.Container):
-        self._toml_add_examples(toml_obj)
-        if self.default != SENTINEL:
-            comments = [
-                'Setting this value is not required; you can leave it commented out.',
-                'The default value (the one that will be used if you do not provide another) is shown below:',
-            ]
-            for comment in comments:
-                toml_obj.add(tomlkit.comment(comment))
-        else:
-            toml_obj.add(tomlkit.comment('MANDATORY CONFIG VALUE: you *must* provide a value for this setting'))
-
-    def _toml_add_value(self, toml_obj: tomlkit.container.Container, not_set: str):
-        if self.default != SENTINEL:
-            _doc = tomlkit.document()
-            _doc[self.key] = self.default
-            toml_obj.add(tomlkit.comment(_doc.as_string()))
-        else:
-            toml_obj[self.key] = not_set
-            toml_obj.add(tomlkit.nl())
-
-    @staticmethod
-    def _toml_comment(toml_obj: tomlkit.container.Container, comment: str):
-        toml_obj.add(tomlkit.comment(comment))
-
-    @abc.abstractmethod
-    def _toml_add_examples(self, toml_obj: tomlkit.container.Container):
-        pass
-
-    def add_to_toml_obj(self, toml_obj: tomlkit.container.Container, not_set: str):
-        """
-        Updates the given container in-place with this ConfigValue
-
-        :param toml_obj: container to update
-        :type toml_obj: tomlkit.container.Containers
-        :param not_set: random UUID used to denote a value that has no default
-        :type not_set: str
-        """
-        self._toml_add_description(toml_obj)
-        self._toml_add_value_type(toml_obj)
-        self._toml_add_comments(toml_obj)
-        toml_obj.add(tomlkit.comment(''))
-        self._toml_add_value(toml_obj, not_set)
