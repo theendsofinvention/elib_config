@@ -4,7 +4,8 @@ import pathlib
 
 import pytest
 
-from elib_config import ConfigMissingValueError, ConfigTypeError, ConfigValueString
+from elib_config import ConfigMissingValueError, ConfigValueTypeError, ConfigValueString
+from elib_config._types import Types
 
 
 @pytest.fixture(name='value')
@@ -30,7 +31,7 @@ def test_string_value_default(value):
 
 
 def test_string_value_type_name(value):
-    assert value.type_name == 'string'
+    assert value.type_name == Types.string
 
 
 @pytest.mark.parametrize(
@@ -45,7 +46,7 @@ def test_string_value_type_name(value):
 def test_invalid_cast_type_from_config_file(value, file_value):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
     exc_msg = f'{value.name}: config value must be of type "string", got .* instead'
-    with pytest.raises(ConfigTypeError, match=exc_msg):
+    with pytest.raises(ConfigValueTypeError, match=exc_msg):
         value()
 
 

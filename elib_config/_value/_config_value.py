@@ -15,17 +15,13 @@ import typing
 
 # noinspection PyProtectedMember
 from elib_config._file._config_file import read_config_file
-# noinspection PyProtectedMember
 from elib_config._setup import ELIBConfig
-# noinspection PyProtectedMember
 from elib_config._utils import friendly_type_name
-# noinspection PyProtectedMember
-from ._exc import ConfigMissingValueError, ConfigTypeError, DuplicateConfigValueError
-
-SENTINEL: typing.Any = object()
+from elib_config._value._config_value_toml import ConfigValueTOML, SENTINEL
+from ._exc import ConfigMissingValueError, ConfigValueTypeError
 
 
-class ConfigValue(abc.ABC):
+class ConfigValue(ConfigValueTOML, abc.ABC):
     """
     Abstract base class for config values
     """
@@ -49,11 +45,19 @@ class ConfigValue(abc.ABC):
         return path
 
     @property
+    def key(self) -> str:
+        """
+        :return: last component of path
+        :rtype: str
+        """
+        return self._raw_path[-1]
+
+    @property
     def name(self) -> str:
         """
         :return: user friendly name of this value as a string
         """
-        return self.path.replace('__', ': ')
+        return self.path.replace('__', '.')
 
     def _from_environ(self) -> typing.Optional[object]:
         var_name = ELIBConfig.config_sep_str.join((ELIBConfig.app_name, self.path)).upper()
@@ -96,8 +100,9 @@ class ConfigValue(abc.ABC):
         return self._cast(raw_value)
 
     def _raise_invalid_type_error(self):
-        actual_type: str = friendly_type_name(type(self.raw_value()))
-        raise ConfigTypeError(
+        _raw_value_type = type(self.raw_value())
+        actual_type: str = friendly_type_name(_raw_value_type)
+        raise ConfigValueTypeError(
             self.path,
             f'config value must be of type "{self.type_name}", got "{actual_type}" instead.'
         )
@@ -113,17 +118,10 @@ class ConfigValue(abc.ABC):
         :return: user friendly type for this config value
         """
 
-
-def validate_config():
-    """
-    Verifies that all configuration values have a valid setting
-    :return:
-    """
-    ELIBConfig.check()
-    known_paths = set()
-    for config_value in ConfigValue.config_values:
-        if config_value.path not in known_paths:
-            known_paths.add(config_value.path)
-        else:
-            raise DuplicateConfigValueError(config_value.path)
-        config_value()
+    @property
+    def friendly_type_name(self) -> str:
+        """
+        :return: friendly type name for the end-user
+        :rtype: str
+        """
+        return self.type_name

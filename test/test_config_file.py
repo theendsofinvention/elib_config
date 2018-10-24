@@ -3,8 +3,9 @@
 import pathlib
 
 import pytest
+import tomlkit.exceptions
 
-from elib_config import ConfigFileNotFoundError, EmptyValueError, InvalidConfigFileError
+from elib_config import ConfigFileNotFoundError, EmptyValueError
 # noinspection PyProtectedMember
 from elib_config._file import _config_file
 
@@ -43,7 +44,7 @@ def test_read_file_basic():
 )
 def test_invalid_file(file_content):
     pathlib.Path('config.toml').write_text(file_content)
-    with pytest.raises(InvalidConfigFileError):
+    with pytest.raises(tomlkit.exceptions.UnexpectedCharError):
         _config_file._read_file()
 
 

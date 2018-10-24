@@ -4,6 +4,26 @@ Utils for elib_config
 """
 import typing
 
+import tomlkit.container
+import tomlkit.items
+
+from elib_config._logging import LOGGER
+from elib_config._types import Types
+
+_TRANSLATE_TYPE = {
+    bool: Types.boolean,
+    str: Types.string,
+    tomlkit.items.String: Types.string,
+    int: Types.integer,
+    tomlkit.items.Integer: Types.integer,
+    float: Types.float,
+    tomlkit.items.Float: Types.float,
+    list: Types.array,
+    dict: Types.table,
+    tomlkit.container.Container: Types.table,
+
+}
+
 
 def friendly_type_name(raw_type: typing.Type) -> str:
     """
@@ -12,20 +32,8 @@ def friendly_type_name(raw_type: typing.Type) -> str:
     :param raw_type: raw type (str, int, ...)
     :return: user friendly type as string
     """
-    if raw_type is str:
-        return 'string'
     try:
-        if issubclass(raw_type, dict):
-            return 'dictionary'
-    except TypeError:
-        pass
-    if raw_type is int:
-        return 'integer'
-    if raw_type is float:
-        return 'float'
-    if raw_type is bool:
-        return 'boolean'
-    if raw_type is list:
-        return 'list'
-
-    raise ValueError(f'unknown type: {raw_type}')
+        return _TRANSLATE_TYPE[raw_type]
+    except KeyError:
+        LOGGER.error('unmanaged value type: %s', raw_type)
+        return str(raw_type)

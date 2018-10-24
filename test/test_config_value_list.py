@@ -5,8 +5,7 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
-# noinspection PyProtectedMember
-from elib_config import ConfigMissingValueError, ConfigTypeError, ConfigValueList, _utils
+from elib_config import ConfigMissingValueError, ConfigValueTypeError, ConfigValueList, _utils, _types
 
 
 @pytest.fixture(name='value')
@@ -34,7 +33,8 @@ def test_string_value_default(value: ConfigValueList):
 
 
 def test_string_value_type_name(value: ConfigValueList):
-    assert value.type_name == 'List of strings'
+    assert value.type_name == 'array'
+    assert value.friendly_type_name == 'array of strings'
 
 
 @pytest.mark.parametrize(
@@ -44,13 +44,13 @@ def test_string_value_type_name(value: ConfigValueList):
         (10.01, "float"),
         ('"some string"', 'string'),
         ('true', 'boolean'),
-        ('{some = "dict"}', 'dictionary'),
+        ('{some = "dict"}', 'table'),
     ]
 )
 def test_invalid_cast_type_from_config_file(value: ConfigValueList, file_value, wrong_type):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
-    exc_msg = f'{value.name}: config value must be of type "List of strings", got "{wrong_type}" instead'
-    with pytest.raises(ConfigTypeError, match=exc_msg):
+    exc_msg = f'{value.name}: config value must be of type "{_types.Types.array}", got "{wrong_type}" instead'
+    with pytest.raises(ConfigValueTypeError, match=exc_msg):
         value()
 
 
@@ -67,7 +67,7 @@ def test_element_type_check(value: ConfigValueList, not_a_string):
     value.default = ['string', 'string_too', not_a_string]
     actual_type = _utils.friendly_type_name(type(not_a_string))
     error = f'{value.name}: item at index 2 should be a "string", but is "{actual_type}" instead'
-    with pytest.raises(ConfigTypeError, match=error):
+    with pytest.raises(ConfigValueTypeError, match=error):
         value()
 
 
@@ -78,5 +78,11 @@ def test_element_type_check(value: ConfigValueList, not_a_string):
 def test_element_type_check_from_file(value: ConfigValueList, not_a_string):
     pathlib.Path('config.toml').write_text(f'key = [ {not_a_string} ]')
     error = f'{value.name}: item at index 0 should be a "string", but is .* instead'
-    with pytest.raises(ConfigTypeError, match=error):
+    with pytest.raises(ConfigValueTypeError, match=error):
         value()
+
+
+def test_toml_example_unmanaged_element_type():
+    value = ConfigValueList('test', element_type=bool, description='')
+    with pytest.raises(KeyError):
+        value._toml_add_examples({})

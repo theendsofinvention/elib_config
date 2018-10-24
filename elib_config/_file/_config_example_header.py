@@ -9,8 +9,8 @@ HEADER = r'''This is an example configuration file for {app_name}.
 
 Version: {app_version}.
 
-WARNING: this example file will be overwritten every time {app_name} starts. Make sure to save your work under another 
-name!
+WARNING: this example file will be overwritten every time {app_name} starts.
+Make sure to save your work and rename the file when you are done!
 
 It must be renamed to "{config_file_path}" in order to come into effect.
 
@@ -42,7 +42,7 @@ Value types will be checked at runtime.
 TOML specification
 ==================
 
-The full TOML specification can be found at: 
+The full TOML specification can be found at: https://github.com/toml-lang/toml
 
 Here's an example taken from the readme:
 

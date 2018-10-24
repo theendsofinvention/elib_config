@@ -4,7 +4,7 @@ import pathlib
 
 import pytest
 
-from elib_config import ConfigMissingValueError, ConfigTypeError, ConfigValueBool
+from elib_config import ConfigMissingValueError, ConfigValueTypeError, ConfigValueBool
 
 
 @pytest.fixture(name='value')
@@ -46,7 +46,7 @@ def test_invalid_cast_type_from_config_file(value, file_value):
     pathlib.Path('config.toml').write_text(f'key = {file_value}')
     exc_msg = f'{value.name}: invalid boolean expression: ".*"; ' \
               f'use either "true" or "false" instead, without the quotes.'
-    with pytest.raises(ConfigTypeError, match=exc_msg):
+    with pytest.raises(ConfigValueTypeError, match=exc_msg):
         value()
 
 
