@@ -180,9 +180,9 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:f34f7da01a60166464ff90387fb4ac6e8bd2c1f777289560e6a3a5901fe63067"
+                "sha256:7f882a9fee0464ec66b1a938615190940a6f813e9aa7586889fb25b4a844f661"
             ],
-            "version": "==2018.11.2.1"
+            "version": "==2018.11.5.1"
         },
         "elib-run": {
             "hashes": [
@@ -386,10 +386,10 @@
         },
         "pbr": {
             "hashes": [
-                "sha256:8fc938b1123902f5610b06756a31b1e6febf0d105ae393695b0c9d4244ed2910",
-                "sha256:f20ec0abbf132471b68963bb34d9c78e603a5cf9e24473f14358e66551d47475"
+                "sha256:f59d71442f9ece3dffc17bc36575768e1ee9967756e6b6535f0ee1f0054c3d68",
+                "sha256:f6d5b23f226a2ba58e14e49aa3b1bfaf814d0199144b95d78458212444de1387"
             ],
-            "version": "==5.1.0"
+            "version": "==5.1.1"
         },
         "pefile": {
             "hashes": [
@@ -475,10 +475,10 @@
         },
         "pytest-deadfixtures": {
             "hashes": [
-                "sha256:cac3975fa3ac27d6e58f39ae18cbd5bc58396d8319a4c4f603a4220dd6eb27d9",
-                "sha256:d436f4c6d2d9fb6977eb6aed6e3f7120ee2bd4fdc117f699cf5c296ddf2a3d95"
+                "sha256:458b2314862696af11223d869c97814e63db8a7b9f61dcf42fe07a72a7ff9bd8",
+                "sha256:61e34fb0f777bc0f321c7d45f39447e965fb1a6d2de243e47aa034387229d9d3"
             ],
-            "version": "==2.0.1"
+            "version": "==2.1.0"
         },
         "pytest-faker": {
             "hashes": [
