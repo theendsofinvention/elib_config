@@ -26,11 +26,11 @@
         },
         "tomlkit": {
             "hashes": [
-                "sha256:2b76a69633abca5be534afc69c2ba657db55e17646b2fbd22fc08e509dbfc90f",
-                "sha256:94533d0c5314419ab0cddb8d5ee9180c4aa4d9c716efb9bf85dc3fe13c34cd5c"
+                "sha256:2f46c1551180bb0aa33e7ee2ed939c6f8da04bd8acbee4ebd5ce564e85f2a19d",
+                "sha256:ccd5bc26d816e8be75c31c7c2da70c4f4b3131248a47ad1ffc82f48764d1883c"
             ],
             "index": "pypi",
-            "version": "==0.5.0"
+            "version": "==0.5.1"
         }
     },
     "develop": {
@@ -615,11 +615,11 @@
         },
         "tomlkit": {
             "hashes": [
-                "sha256:2b76a69633abca5be534afc69c2ba657db55e17646b2fbd22fc08e509dbfc90f",
-                "sha256:94533d0c5314419ab0cddb8d5ee9180c4aa4d9c716efb9bf85dc3fe13c34cd5c"
+                "sha256:2f46c1551180bb0aa33e7ee2ed939c6f8da04bd8acbee4ebd5ce564e85f2a19d",
+                "sha256:ccd5bc26d816e8be75c31c7c2da70c4f4b3131248a47ad1ffc82f48764d1883c"
             ],
             "index": "pypi",
-            "version": "==0.5.0"
+            "version": "==0.5.1"
         },
         "tqdm": {
             "hashes": [
