@@ -178,9 +178,9 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:d855a2fad46796f8bb4b08fd6766b2cc5d1b12315bbdb2cf5e9c580e70d489d9"
+                "sha256:0bb6bfea4fe7413409e18309bb424220bb0d8de16646b784d3d3b9637533621c"
             ],
-            "version": "==2018.11.15.1"
+            "version": "==2018.11.16.1"
         },
         "elib-run": {
             "hashes": [
@@ -501,10 +501,9 @@
         },
         "pytest-vcr": {
             "hashes": [
-                "sha256:4de34c0acc3c20304cced2632c98b4ade3878ad2ebd0a97dd853d14ab85f5589",
-                "sha256:dbc0912e013dc4ad2717dcf930b0a6ff4ac03450b97f4b08e6f1ea9a7de6b7ed"
+                "sha256:5e5bfa522667007723db331823d5d351724da2d95e88bd4cf141fa4e267faba2"
             ],
-            "version": "==1.0.0"
+            "version": "==1.0.1"
         },
         "pytest-watch": {
             "hashes": [
