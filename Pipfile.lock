@@ -178,9 +178,9 @@
         },
         "elib-config": {
             "hashes": [
-                "sha256:c7841151ae17a54bd2522bad80e90f0f20bd082000a805769452b5430ef76ca8"
+                "sha256:99ec399b18885d6bff937850346436f8b54c220f6ab31e2801a875c030431e36"
             ],
-            "version": "==2018.11.19.1"
+            "version": "==2018.11.20.1"
         },
         "elib-run": {
             "hashes": [
