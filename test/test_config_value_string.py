@@ -4,7 +4,7 @@ import pathlib
 
 import pytest
 
-from elib_config import ConfigMissingValueError, ConfigValueTypeError, ConfigValueString
+from elib_config import MissingValueError, ConfigValueTypeError, ConfigValueString
 from elib_config._types import Types
 
 
@@ -22,7 +22,7 @@ def test_no_default():
         'test', 'value',
         description='test',
     )
-    with pytest.raises(ConfigMissingValueError):
+    with pytest.raises(MissingValueError):
         value()
 
 

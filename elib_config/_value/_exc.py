@@ -3,6 +3,7 @@
 Exceptions for the value package
 """
 import typing
+import warnings
 
 from elib_config._exc import ELIBConfigError
 
@@ -28,8 +29,16 @@ class DuplicateConfigValueError(_ConfigValueError):
         )
 
 
-class ConfigMissingValueError(_ConfigValueError):
+class MissingValueError(_ConfigValueError):
     """Raised when a config value is missing"""
+
+
+class ConfigMissingValueError(_ConfigValueError):
+    """(deprecated) Raised when a config value is missing"""
+
+    def __init__(self, *args, **kwargs):
+        warnings.warn('use MissingValueError instead', PendingDeprecationWarning)
+        super(ConfigMissingValueError, self).__init__(*args, **kwargs)
 
 
 class ConfigValueError(_ConfigValueError):

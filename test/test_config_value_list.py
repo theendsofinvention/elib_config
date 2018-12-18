@@ -5,7 +5,7 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
-from elib_config import ConfigMissingValueError, ConfigValueTypeError, ConfigValueList, _utils, _types
+from elib_config import MissingValueError, ConfigValueTypeError, ConfigValueList, _utils, _types
 
 
 @pytest.fixture(name='value')
@@ -24,7 +24,7 @@ def test_no_default():
         element_type=str,
         description='test',
     )
-    with pytest.raises(ConfigMissingValueError):
+    with pytest.raises(MissingValueError):
         value()
 
 

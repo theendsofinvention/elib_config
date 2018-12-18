@@ -18,7 +18,7 @@ from elib_config._file._config_file import read_config_file
 from elib_config._setup import ELIBConfig
 from elib_config._utils import friendly_type_name
 from elib_config._value._config_value_toml import ConfigValueTOML, SENTINEL
-from ._exc import ConfigMissingValueError, ConfigValueTypeError
+from ._exc import MissingValueError, ConfigValueTypeError
 
 
 class ConfigValue(ConfigValueTOML, abc.ABC):
@@ -96,7 +96,7 @@ class ConfigValue(ConfigValueTOML, abc.ABC):
     def __call__(self):
         raw_value = self.raw_value()
         if raw_value is None:
-            raise ConfigMissingValueError(self.path, 'missing config value')
+            raise MissingValueError(self.path, 'missing config value')
         return self._cast(raw_value)
 
     def _raise_invalid_type_error(self):
