@@ -4,7 +4,7 @@ import pathlib
 
 import pytest
 
-from elib_config import ConfigMissingValueError, ConfigValueTypeError, ConfigValueBool
+from elib_config import MissingValueError, ConfigValueTypeError, ConfigValueBool
 
 
 @pytest.fixture(name='value')
@@ -21,7 +21,7 @@ def test_no_default():
         'test', 'value',
         description='test',
     )
-    with pytest.raises(ConfigMissingValueError):
+    with pytest.raises(MissingValueError):
         value()
 
 
