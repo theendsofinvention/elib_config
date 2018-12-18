@@ -2,8 +2,8 @@
 """
 Reads and writes ESST's config to/from a file.
 """
-import typing
 import multiprocessing
+import typing
 from pathlib import Path
 
 import tomlkit

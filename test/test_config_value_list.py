@@ -5,7 +5,7 @@ import pathlib
 import pytest
 
 # noinspection PyProtectedMember
-from elib_config import MissingValueError, ConfigValueTypeError, ConfigValueList, _utils, _types
+from elib_config import ConfigValueList, ConfigValueTypeError, MissingValueError, _types, _utils
 
 
 @pytest.fixture(name='value')

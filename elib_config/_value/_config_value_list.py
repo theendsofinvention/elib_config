@@ -7,10 +7,10 @@ import typing
 
 import tomlkit.container
 
+from elib_config._types import Types
 from elib_config._utils import friendly_type_name
 from ._config_value import ConfigValue, SENTINEL
 from ._exc import ConfigValueTypeError
-from elib_config._types import Types
 
 
 class ConfigValueList(ConfigValue):

@@ -18,7 +18,7 @@ from elib_config._file._config_file import read_config_file
 from elib_config._setup import ELIBConfig
 from elib_config._utils import friendly_type_name
 from elib_config._value._config_value_toml import ConfigValueTOML, SENTINEL
-from ._exc import MissingValueError, ConfigValueTypeError
+from ._exc import ConfigValueTypeError, MissingValueError
 
 
 class ConfigValue(ConfigValueTOML, abc.ABC):

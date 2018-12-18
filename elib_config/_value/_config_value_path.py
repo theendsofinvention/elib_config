@@ -9,9 +9,9 @@ from pathlib import Path
 
 import tomlkit.container
 
+from elib_config._types import Types
 from ._config_value import ConfigValue, SENTINEL
 from ._exc import NotAFileError, NotAFolderError, PathMustExistError
-from elib_config._types import Types
 
 
 class ConfigValuePath(ConfigValue):
