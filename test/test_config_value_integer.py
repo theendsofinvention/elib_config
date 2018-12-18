@@ -4,7 +4,7 @@ import pathlib
 
 import pytest
 
-from elib_config import MissingValueError, ConfigValueTypeError, ConfigValueInteger, OutOfBoundError
+from elib_config import ConfigValueInteger, ConfigValueTypeError, MissingValueError, OutOfBoundError
 
 
 @pytest.fixture(name='value')

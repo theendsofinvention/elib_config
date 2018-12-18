@@ -4,7 +4,7 @@ import pathlib
 
 import pytest
 
-from elib_config import MissingValueError, ConfigValueTypeError, ConfigValueString
+from elib_config import ConfigValueString, ConfigValueTypeError, MissingValueError
 from elib_config._types import Types
 
 

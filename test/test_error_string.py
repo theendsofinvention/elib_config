@@ -1,7 +1,8 @@
 # coding=utf-8
 
-import elib_config
 from pathlib import Path
+
+import elib_config
 
 _TOML_TEXT = """
 [container1]

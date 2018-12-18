@@ -5,8 +5,8 @@ import pathlib
 import pytest
 
 from elib_config import (
-    MissingValueError, ConfigValueBool, ConfigValueInteger, ConfigValueList, ConfigValuePath, ConfigValueString,
-    DuplicateConfigValueError, validate_config,
+    ConfigValueBool, ConfigValueInteger, ConfigValueList, ConfigValuePath, ConfigValueString, DuplicateConfigValueError,
+    MissingValueError, validate_config,
 )
 
 
@@ -52,4 +52,3 @@ def test_missing_multiple():
     except MissingValueError as e:
         assert 'path.to.val1' in str(e)
         assert 'path_to.val2' in str(e)
-

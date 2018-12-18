@@ -2,17 +2,17 @@
 
 import pathlib
 import re
-
-import pytest
-import dataclasses
 import typing
 
+import dataclasses
+import pytest
 import tomlkit
+
+import elib_config
 # noinspection PyProtectedMember
 from elib_config._file import _config_example
 # noinspection PyProtectedMember
 from elib_config._value._config_value import ConfigValue
-import elib_config
 
 
 def _strip_header(file: str):

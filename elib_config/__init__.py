@@ -15,8 +15,8 @@ from elib_config._file._exc import (
 from elib_config._types import Types
 # noinspection PyProtectedMember
 from elib_config._value._exc import (
-    MissingValueError, ConfigValueError, ConfigValueTypeError, DuplicateConfigValueError, MissingTableKeyError,
-    NotAFileError, NotAFolderError, OutOfBoundError, PathMustExistError, TableKeyTypeError, ConfigMissingValueError
+    ConfigMissingValueError, ConfigValueError, ConfigValueTypeError, DuplicateConfigValueError, MissingTableKeyError,
+    MissingValueError, NotAFileError, NotAFolderError, OutOfBoundError, PathMustExistError, TableKeyTypeError,
 )
 # noinspection PyProtectedMember
 from ._file._config_example import write_example_config

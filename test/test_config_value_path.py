@@ -5,8 +5,7 @@ import pathlib
 import pytest
 
 from elib_config import (
-    MissingValueError, ConfigValueTypeError, ConfigValuePath, NotAFileError, NotAFolderError,
-    PathMustExistError,
+    ConfigValuePath, ConfigValueTypeError, MissingValueError, NotAFileError, NotAFolderError, PathMustExistError,
 )
 
 

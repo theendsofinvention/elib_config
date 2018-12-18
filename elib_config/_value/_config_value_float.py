@@ -3,10 +3,11 @@
 Config value that will be cast as a string
 """
 import typing
+
 import tomlkit.container
 
-from ._config_value_integer import ConfigValueInteger
 from elib_config._types import Types
+from ._config_value_integer import ConfigValueInteger
 
 
 class ConfigValueFloat(ConfigValueInteger):
