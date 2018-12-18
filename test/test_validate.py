@@ -5,7 +5,7 @@ import pathlib
 import pytest
 
 from elib_config import (
-    ConfigMissingValueError, ConfigValueBool, ConfigValueInteger, ConfigValueList, ConfigValuePath, ConfigValueString,
+    MissingValueError, ConfigValueBool, ConfigValueInteger, ConfigValueList, ConfigValuePath, ConfigValueString,
     DuplicateConfigValueError, validate_config,
 )
 
@@ -29,7 +29,7 @@ def test_valid_bare_config():
 )
 def test_config_without_default(val_cls):
     val_cls('val_name', description='dummy')
-    with pytest.raises(ConfigMissingValueError):
+    with pytest.raises(MissingValueError):
         validate_config()
 
 
@@ -42,3 +42,14 @@ def test_duplicate_path(val_name):
     with pytest.raises(DuplicateConfigValueError):
         ConfigValueBool(val_name, description='dummy', default=True)
         validate_config()
+
+
+def test_missing_multiple():
+    ConfigValueBool('path', 'to', 'val1', description='dummy')
+    ConfigValueBool('path_to', 'val2', description='dummy')
+    try:
+        validate_config()
+    except MissingValueError as e:
+        assert 'path.to.val1' in str(e)
+        assert 'path_to.val2' in str(e)
+
