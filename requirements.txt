@@ -1,2 +1,2 @@
-dataclasses==0.6
-tomlkit==0.5.3
+dataclasses==0.7
+tomlkit==0.6.0
